@@ -1,0 +1,617 @@
+Fri Aug 26 2016 11:27:29 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:27:52 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:27:57 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:30:07 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:30:07 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:30:39 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x55b424a218a0] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:30:40 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:30:44 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:31:12 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+[rtsp @ 0x55ec6e9fea60] max delay reached. need to consume packet
+[rtsp @ 0x55ec6e9fea60] RTP: missed 3 packets
+[h264 @ 0x55ec6ea01e40] error while decoding MB 96 41, bytestream -5
+[h264 @ 0x55ec6ea01e40] concealing 3193 DC, 3193 AC, 3193 MV errors in P frame
+[rtsp @ 0x55ec6e9fea60] max delay reached. need to consume packet
+[rtsp @ 0x55ec6e9fea60] RTP: missed 13 packets
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x55ec6ea79640] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:31:13 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:31:46 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x5637bc6ac260] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:31:47 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:32:19 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+[rtsp @ 0x562f68756a60] max delay reached. need to consume packet
+[rtsp @ 0x562f68756a60] RTP: missed 1 packets
+[h264 @ 0x562f68759e40] error while decoding MB 15 67, bytestream -5
+[h264 @ 0x562f68759e40] concealing 154 DC, 154 AC, 154 MV errors in P frame
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x562f688dcb60] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:32:20 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:33:00 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x55dab6c7eac0] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:33:01 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:33:34 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x559c3d20f1c0] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:33:35 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:34:06 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x55de2edcac00] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:34:07 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:34:39 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x56018076dde0] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:34:40 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:35:12 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x55d9d7dffcc0] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:35:13 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:35:45 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x56149cdbea40] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:35:46 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:36:18 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x561c91bcdf20] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:36:19 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:37:00 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x558352201860] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:37:01 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:37:40 GMT+1200 (NZST)$$$(i2)Crash! ffmpeg exited with code 1: rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+ ffmpeg version 3.1.2 Copyright (c) 2000-2016 the FFmpeg developers
+  built with gcc 6.1.1 (GCC) 20160802
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-avisynth --enable-avresample --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libass --enable-libbluray --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-netcdf --enable-shared --enable-version3 --enable-x11grab
+  libavutil      55. 28.100 / 55. 28.100
+  libavcodec     57. 48.101 / 57. 48.101
+  libavformat    57. 41.100 / 57. 41.100
+  libavdevice    57.  0.101 / 57.  0.101
+  libavfilter     6. 47.100 /  6. 47.100
+  libavresample   3.  0.  0 /  3.  0.  0
+  libswscale      4.  1.100 /  4.  1.100
+  libswresample   2.  1.100 /  2.  1.100
+  libpostproc    54.  0.100 / 54.  0.100
+Guessed Channel Layout for Input Stream #0.1 : mono
+Input #0, rtsp, from 'rtsp://192.168.1.71:554/video.pro1':
+  Metadata:
+    title           : Stream
+    comment         : RTSP Server
+  Duration: N/A, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: h264 (Main), yuv420p, 1920x1080, 30 fps, 30 tbr, 90k tbn, 180k tbc
+    Stream #0:1: Audio: pcm_alaw, 8000 Hz, 1 channels, s16, 64 kb/s
+[rtmp @ 0x564d66446840] Cannot open connection tcp://a.rtmp.youtube.com:1935
+rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q: Network is unreachable
+$end$
+Fri Aug 26 2016 11:37:41 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:37:51 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:38:28 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:38:28 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:38:28 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:38:43 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:38:43 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:38:59 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:38:59 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:39:17 GMT+1200 (NZST)$$$(i3)Critical Problem: Camera Disconnected$end$
+Fri Aug 26 2016 11:39:30 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:39:32 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:39:32 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:39:48 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:39:48 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:39:54 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:39:54 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:40:23 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:40:23 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:41:12 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:41:12 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:41:44 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:41:44 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:42:25 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:42:25 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:42:57 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:42:57 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:43:29 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:43:30 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:44:04 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:44:04 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:44:15 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:44:15 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:44:27 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:44:27 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:44:35 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:44:36 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:45:08 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:45:08 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:45:44 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:45:44 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:46:16 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:46:19 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:46:47 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:46:47 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:47:25 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:47:25 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:47:45 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:47:45 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:47:49 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 11:47:50 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 11:47:50 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:47:52 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 11:47:52 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 11:47:52 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:47:53 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 11:48:22 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:48:22 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:48:53 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:48:54 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:49:00 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:49:00 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:49:05 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 11:50:05 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:50:06 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:50:22 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:50:32 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:50:38 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:50:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:51:17 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:51:17 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:51:31 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 11:51:45 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 11:52:38 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 11:52:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:53:15 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:53:15 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:53:50 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:53:51 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:54:28 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:54:28 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:55:01 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:55:01 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:55:37 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:55:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:57:34 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:57:34 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 11:59:23 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 11:59:57 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:00:40 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:00:48 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:02:14 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:02:14 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:03:57 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:03:58 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:05:37 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:08:50 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:11:30 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:11:30 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:12:02 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:12:10 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:12:10 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:12:14 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:12:14 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:12:24 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:13:18 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:13:43 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:13:43 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:13:45 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:13:46 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:13:46 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:13:47 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:13:49 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:13:49 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:14:21 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:14:21 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:14:27 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:14:27 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:14:28 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:14:35 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:14:39 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:14:39 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:15:11 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:15:19 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:27:49 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:27:49 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:27:53 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8080.$end$
+Fri Aug 26 2016 12:38:17 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:40:44 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:41:26 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:43:09 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:45:10 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:45:45 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:48:31 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:49:17 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:49:46 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:49:46 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:50:41 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:50:41 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:51:11 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:51:11 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:51:21 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:51:43 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:51:48 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:51:59 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:53:51 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:53:51 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:53:54 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:54:04 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:54:08 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:54:09 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:54:09 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:54:11 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:54:12 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:54:12 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:54:13 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:54:14 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:54:14 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:54:30 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:54:30 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:54:42 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 12:54:43 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 12:54:43 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:55:15 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 12:56:29 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:56:29 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:56:31 GMT+1200 (NZST)$$$(i1)Restart Command!$end$
+Fri Aug 26 2016 12:56:31 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:58:22 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:58:22 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:58:26 GMT+1200 (NZST)$$$(i1)Restart Command!$end$
+Fri Aug 26 2016 12:58:26 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:58:28 GMT+1200 (NZST)$$$(i1)Restart Command!$end$
+Fri Aug 26 2016 12:58:28 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:58:41 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:59:08 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:59:25 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:59:25 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:59:40 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 12:59:40 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 12:59:50 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 12:59:58 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:01:24 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 13:04:29 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:04:29 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:04:35 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:04:35 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:04:36 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 13:04:38 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 13:04:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:04:43 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 13:04:44 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 13:04:44 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:05:38 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:05:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:05:43 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:06:28 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:06:28 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:06:32 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:06:59 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:07:00 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 13:18:47 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:18:49 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:19:16 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:19:16 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:19:38 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:19:38 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:19:40 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:19:51 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:20:03 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:21:21 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 13:21:55 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:21:55 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:21:57 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:22:24 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:22:24 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:22:27 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:23:01 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:23:01 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:23:02 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:23:13 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:24:44 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 13:30:21 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:30:25 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:30:43 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:31:42 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:31:47 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:31:56 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:33:05 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:33:12 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:33:17 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:35:54 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:45:06 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:45:19 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:45:25 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:48:14 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 13:48:14 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 10000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 13:48:51 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:08 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:11 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:13 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:16 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:32 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:49:59 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 13:51:29 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:51:43 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 13:52:01 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:16:15 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:16:40 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:17:09 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:22:19 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 14:22:19 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:22:22 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 14:22:23 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 14:22:23 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:22:24 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 14:22:51 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 14:22:51 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:24:22 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:24:34 GMT+1200 (NZST)$$$(i3)Critical Problem: YoutTube Disconnected$end$
+Fri Aug 26 2016 14:26:47 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 14:26:47 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:26:52 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 14:26:53 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 14:26:53 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:26:56 GMT+1200 (NZST)$$$(i1)Restart Command!$end$
+Fri Aug 26 2016 14:26:56 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:26:58 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
+Fri Aug 26 2016 14:26:58 GMT+1200 (NZST)$$$(i1)Start Command!$end$
+Fri Aug 26 2016 14:26:58 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:26:59 GMT+1200 (NZST)$$$(i1)Restart Command!$end$
+Fri Aug 26 2016 14:26:59 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:27:06 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:28:16 GMT+1200 (NZST)$$$(i4)Snapshot ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -vframes 1 -f mjpeg pipe:1$end$
+Fri Aug 26 2016 14:29:53 GMT+1200 (NZST)$$$(i4)Spawned Ffmpeg with command: ffmpeg -n -20 ffmpeg -i rtsp://192.168.1.71:554/video.pro1 -b:a 128k -ac 1 -ar 11025 -acodec libmp3lame -vcodec copy -f flv -bufsize 50000k -tune film rtmp://a.rtmp.youtube.com/live2/7r76-zyjx-bfdj-e79q$end$
+Fri Aug 26 2016 14:29:54 GMT+1200 (NZST)$$$(i0)Connected to Master: http://localhost:8081.$end$
+Fri Aug 26 2016 14:30:27 GMT+1200 (NZST)$$$(i1)Stop Command!$end$
