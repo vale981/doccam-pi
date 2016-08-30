@@ -1,11 +1,14 @@
-module.exports = {
-    camIP: '192.168.1.71',
-    camPort: 554,
-    camProfile: 'video.pro1',
-    snapProfile: 'video.pro1',
-    key: '7r76-zyjx-bfdj-e79q',
-    name: 'Pi at DOC!',
-    master: 'http://localhost:8080',
-    logPath: './process.log',
-    ffmpegPath: 'ffmpeg'
+{
+  "camIP": "192.168.1.71",
+  "camPort": "554",
+  "camProfile": "video.pro1",
+  "camUsername": "admin",
+  "camPassword": "admin",
+  "snapProfile": "video.pro1",
+  "key": "7r76-zyjx-bfdj-e79q",
+  "name": "Pi at DOC!",
+  "master": "http://localhost:8080",
+  "logPath": "./process.log",
+  "ffmpegPath": "ffmpeg",
+  "configured": true
 }
