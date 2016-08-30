@@ -5,6 +5,7 @@ let http = require('http');
 let path = require('path');
 let fs = require('fs');
 let WMStrm = require('./lib/memWrite.js');
+var ss = require('socket.io-stream');
 let mustBe = false;
 let restart = false;
 var config, source, snapSource;
@@ -125,6 +126,7 @@ function handleDisc(info) {
     let [host, port] = info
     isReachable(host, port, is => {
         if (is) {
+            //console.log('is');
             spawn()
         } else {
             setTimeout(function () {
@@ -141,6 +143,7 @@ function isReachable(host, port, callback) {
     }, function (res) {
         callback(true);
     }).on("error", function (e) {
+        //console.log(e);
         if (e.message == "socket hang up")
             callback(true)
         else
@@ -150,12 +153,6 @@ function isReachable(host, port, callback) {
 
 var commandHandlers = function commandHandlers(command, cb) {
     var handlers = {
-        getPanel: function () {
-            console.log(command.request);
-            request.get('http://admin:admin@' + config.camIP, function (err, res, body) {
-                cb(body);
-            });
-        },
         startStop: function () {
             if (status.running !== 2)
                 if (status.running === 0) {
@@ -307,6 +304,11 @@ function initSocket() {
         socket.disconnect();
         init();
     });
+
+    ss(socket).on('getPanel', function (req, res) {
+        request[req.method.toLowerCase()](`http://${config.camUsername}:${config.camPassword}@${config.camIP}/${req.path}`).pipe(res)
+            //request.get('http://admin:admin@' + config.camIP).pipe(res);
+    })
 
     socket.on('command', (command, cb) => {
         commandHandlers(command, cb);
