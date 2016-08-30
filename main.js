@@ -41,9 +41,9 @@ let spawn = function () {
         })
         .on('error', function (err, o, e) {
             console.log(err);
-            if (err.message.indexOf(source + ': No route to host') > -1 || err.message.indexOf(source + ': Connection refused') > -1 || err.message.indexOf(source + ': Input/output error') > -1)
+            if (err.message.indexOf(source) > -1)
                 criticalProblem(0, handleDisc, config.camIP, config.camPort)
-            else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config.key + ': Network is unreachable') > -1)
+            else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config.key) > -1)
                 criticalProblem(1, handleDisc, 'a.rtmp.youtube.com/live2/', 1935);
             else if (err.message.indexOf('spawn') > -1 || err.message.indexOf('niceness') > -1)
                 criticalProblem(2, function () {});
@@ -111,17 +111,19 @@ function imDead(why, e = '') {
 }
 
 function criticalProblem(err, handler, ...args) {
-    status.running = 2
-    status.error = err
-    wLog('Critical Problem: ' + errors[err], 3);
-    socket.emit('change', {
-        type: 'error',
-        change: {
-            running: 2,
-            error: err
-        }
-    });
-    handler(args)
+    setTimeout(function () {
+        status.running = 2
+        status.error = err
+        wLog('Critical Problem: ' + errors[err], 3);
+        socket.emit('change', {
+            type: 'error',
+            change: {
+                running: 2,
+                error: err
+            }
+        });
+        handler(args)
+    }, 1000);
 }
 
 function handleDisc(info) {
@@ -186,7 +188,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                     config[set] = command.data[set];
             }
             let oldConfigured;
-            if (config.configured)
+            if (config.configured === true)
                 oldConfigured = true;
             config.configured = true;
             fs.writeFile('./config.js', JSON.stringify(config, undefined, 2), function (err) {
