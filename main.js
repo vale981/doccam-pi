@@ -8,8 +8,12 @@ let WMStrm = require('./lib/memWrite.js');
 var ss = require('socket.io-stream');
 let mustBe = false;
 let restart = false;
-var config, source, snapSource;
+let config, source, snapSource;
+let exec = require('child_process').exec;
+let execSync = require('child_process').execSync;
+let spawnP = require('child_process').spawn;
 
+let dir = '/home';
 let status = {
     status: 0,
     error: -1
@@ -142,12 +146,11 @@ function handleDisc(info) {
 
 function isReachable(host, port, callback) {
     http.get({
-        host: host,
+        host: host.split('/')[0],
         port: port
     }, function (res) {
         callback(true);
     }).on("error", function (e) {
-        //console.log(e);
         if (e.message == "socket hang up")
             callback(true)
         else
@@ -288,7 +291,8 @@ function init() {
         socket = sock(config.master + '/pi');
         initSocket();
         status.name = config.name;
-        spawn();
+        if (!cmd)
+            spawn();
     } else {
         socket = sock(config.master + '/pi', {
             query: "unconfigured=true"
@@ -298,10 +302,81 @@ function init() {
     }
 }
 
+
+
+
 function initSocket() {
+    function connectSSH(cb) {
+        if (!config['ssh-key']) {
+            cb();
+        } else {
+            if (!cb)
+                cb = function () {
+                    socket.emit('change', {
+                        change: {
+                            ssh: {
+                                port: status.ssh.port
+                            }
+                        }
+                    });
+                };
+            status.ssh = {
+                user: config['ssh-user'],
+                localUser: config['ssh-local-user'],
+                masterPort: config['ssh-port']
+            };
+
+            function connect() {
+                let ssh = spawnP(`key='${config['ssh-key']}' && echo $key | ssh -p ${config['ssh-port']} -i ./dev/stdin -f -N -R ${status.ssh.port}:localhost:22 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')}`, {
+                    detached: true,
+                    shell: true
+                });
+
+                ssh.on('close', () => {
+                    connectSSH();
+                });
+
+                ssh.on('error', () => {
+                    connectSSH();
+                });
+
+                cb();
+            }
+            exec('ps -ax | grep ssh', (error, stdout, stderr) => {
+                let re = /\s*([0-9]+).*\s([0-9]+)\:localhost/g;
+                let m, pid, port;
+                pid = [];
+                while ((m = re.exec(stdout)) !== null) {
+                    if (m.index === re.lastIndex) {
+                        re.lastIndex++;
+                    }
+                    pid.push(m[1]);
+                    port = parseInt(m[2]);
+                }
+                if (pid.length > 0 && port) {
+                    status.ssh.port = port;
+                    exec(`kill ${pid.join(' ')}`, err => {
+                        if (error)
+                            cb(err);
+                        else
+                            connect();
+                    });
+                } else {
+                    socket.emit('getSSHPort', port => {
+                        status.ssh.port = port;
+                        connect();
+                    });
+                }
+            });
+        }
+    }
     socket.on('connect', function () {
         wLog('Connected to Master: ' + config.master + '.');
-        socket.emit('meta', status);
+        connectSSH(err => {
+            if (err)
+                throw err;
+            socket.emit('meta', status);
+        });
     });
 
     socket.on('disconnect', function () {
@@ -310,8 +385,17 @@ function initSocket() {
     });
 
     ss(socket).on('getPanel', function (req, res) {
-        request[req.method.toLowerCase()](`http://${config.camUsername}:${config.camPassword}@${config.camIP}/${req.path}`).pipe(res)
-            //request.get('http://admin:admin@' + config.camIP).pipe(res);
+        if (status.error !== 0)
+            try {
+                request[req.method.toLowerCase()](`http://${config.camUsername}:${config.camPassword}@${config.camIP}/${req.path}`).on('error', () => {
+                    res.end();
+                }).pipe(res)
+            } catch (e) {
+                res.end();
+            }
+        else {
+            res.end();
+        }
     })
 
     socket.on('command', (command, cb) => {
