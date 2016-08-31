@@ -330,7 +330,7 @@ function connectSSH(cb = function() {
 }) {
     socket.emit('getSSHPort', ports => {
         [status.ssh.port, status.ssh.camForwardPort] = ports;
-        let ssh = exec(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 -L 0.0.0.0:${status.ssh.camForwardPort}:${config.camIP}:80 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')} && pidof ssh`, {
+        let ssh = exec(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 -f -N -R 0.0.0.0:${status.ssh.camForwardPort}:${config.camIP}:80 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')} && pidof ssh`, {
             detached: false,
             env: '/usr/local/sbin:/usr/local/bin:/usr/bin:/bin',
             shell: false
@@ -352,7 +352,7 @@ function connectSSH(cb = function() {
 function checkSSH(cb) {
     exec('ps -ax | grep ssh', (error, stdout, stderr) => {
         let m, pid, alive;
-        let re = /([0-9]+).*-p\s[0-9]+\s-f\s-N\s-R\s[0-9]+:.*?:[0-9]+\s-L\s\*:[0-9]+:.*?:[0-9]+\s/g;
+        let re = /([0-9]+).*-p\s[0-9]+\s-f\s-N\s-R\s[0-9]+:.*?:[0-9]+\s-f\s-N\s-R\s\*:[0-9]+:.*?:[0-9]+\s/g;
         pid = [];
         while ((m = re.exec(stdout)) !== null) {
             if (m.index === re.lastIndex) {
