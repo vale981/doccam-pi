@@ -10,7 +10,6 @@
     "master": "http://localhost:8080",
     "logPath": "./process.log",
     "ffmpegPath": "ffmpeg",
-    "ssh-key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfJxq9jyAOzurcgmg0Rsy8p0bvrU2Sx02UNNDfg5OMpxIpYByOXO7y9eq1lzFlMjHeUKKhw59hCnHN7U0AkpoHJZm/P5O7BlcCfsJm1JZN//BQSTBhNxXVwxOy4+Pk9wUKh/naZZ4f3u7SJi1efzusygQ7LnSEJV1E0WLGiuVLnDz1O0SuSmcauJMtV6v/dc/LK66AWpWJHdOTjUncviRmMocrv0fuaDsdKFpwOB/T8u7VKJdxkJ0S35JtWHYjgjJiCqdeBgXqtJccBdqlnie7FFFe+oCycwOIp8T+oHWHAzynJvc1GEemaULLz/XOOIh+/3uYmlrccOITj5CW5kg3 valentin@boettcher.cf",
     "ssh-user": "hiro",
     "ssh-local-user": "hiro",
     "ssh-port": 22,

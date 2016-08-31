@@ -327,7 +327,7 @@ function initSocket() {
             };
 
             function connect() {
-                let ssh = spawnP(`key='${config['ssh-key']}' && echo $key | ssh -p ${config['ssh-port']} -i ./dev/stdin -f -N -R ${status.ssh.port}:localhost:22 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')}`, {
+                let ssh = spawnP(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')}`, {
                     detached: true,
                     shell: true
                 });
