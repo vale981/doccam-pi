@@ -311,10 +311,11 @@ function initSSH(cb) {
         masterPort: config['ssh-port']
     };
 
-    checkSSH((err) => {
-        if (err)
-            throw err;
-        connectSSH(cb);
+    checkSSH((alive) => {
+        if (alive)
+            cb();
+        else
+            connectSSH(cb);
     });
 }
 
@@ -330,45 +331,38 @@ function connectSSH(cb = function() {
 }) {
     socket.emit('getSSHPort', ports => {
         [status.ssh.port, status.ssh.camForwardPort] = ports;
-        let ssh = exec(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 -f -N -R 0.0.0.0:${status.ssh.camForwardPort}:${config.camIP}:80 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')} && pidof ssh`, {
-            detached: false,
-            env: '/usr/local/sbin:/usr/local/bin:/usr/bin:/bin',
-            shell: false
-        });
-        ssh.stdout.on('data', (out) => {
-            sshPid = parseInt(out.split(' ')[0]);
-            fs.writeFile('./ssh.pid', sshPid);
+        let ssh = exec(`forever start -a --killSignal=SIGINT --uid SSH-Serv sshManager.js ${status.ssh.port} ${status.ssh.camForwardPort}`, {
+            detached: true,
+            shell: true
         });
         ssh.on('error', (err) => {
             throw err;
-        });
-        ssh.on('close', () => {
-            initSSH();
         });
         cb();
     });
 }
 
 function checkSSH(cb) {
-    exec('ps -ax | grep ssh', (error, stdout, stderr) => {
-        let m, pid, alive;
-        let re = /([0-9]+).*-p\s[0-9]+\s-f\s-N\s-R\s[0-9]+:.*?:[0-9]+\s-f\s-N\s-R\s\*:[0-9]+:.*?:[0-9]+\s/g;
-        pid = [];
+    let m, pid, alive;
+    let re = /SSH-Serv.*?sshManager\.js\s([0-9]+)\s([0-9]+).*log.*[^STOPPED]+/g;
+    exec('forever list', (error, stdout, stderr) => {
+        if (error)
+            throw error;
+        let alive = false;
         while ((m = re.exec(stdout)) !== null) {
             if (m.index === re.lastIndex) {
                 re.lastIndex++;
             }
-            pid.push(m[1]);
+            if (alive) {
+                exec('forever stopall');
+                cb(false)
+                return;
+            } else {
+                [, status.ssh.port, status.ssh.camForwardPort] = m;
+                alive = true;
+            }
         }
-        if (pid.length > 0) {
-            exec(`kill ${pid.join(' ')}`, err => {
-                if (error)
-                    cb(true);
-            });
-        }
-        if (!alive) {
-            cb(false);
-        }
+        cb(alive);
     });
 }
 
