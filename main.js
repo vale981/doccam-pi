@@ -330,7 +330,7 @@ function connectSSH(cb = function() {
 }) {
     socket.emit('getSSHPort', ports => {
         [status.ssh.port, status.ssh.camForwardPort] = ports;
-        let ssh = exec(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 -L \*:${status.ssh.camForwardPort}:${config.camIP}:80 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')} && pidof ssh`, {
+        let ssh = exec(`ssh -p ${config['ssh-port']} -f -N -R ${status.ssh.port}:localhost:22 -L 0.0.0.0:${status.ssh.camForwardPort}:${config.camIP}:80 ${config['ssh-user']}@${config.master.replace(/(http\:\/{2}|\:[0-9]+)/g, '')} && pidof ssh`, {
             detached: false,
             env: '/usr/local/sbin:/usr/local/bin:/usr/bin:/bin',
             shell: false
