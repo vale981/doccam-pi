@@ -339,8 +339,8 @@ function connectSSH(cb = function() {
             sshPid = parseInt(out.split(' ')[0]);
             fs.writeFile('./ssh.pid', sshPid);
         });
-        ssh.on('error', () => {
-            connectSSH();
+        ssh.on('error', (err) => {
+            throw err;
         });
         ssh.on('close', () => {
             initSSH();
