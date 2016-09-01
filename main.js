@@ -317,9 +317,8 @@ function wLog(msg, l = 0) {
 function handleKill() {
     process.stdin.resume();
     wLog("Received Shutdown Command").
-    mustBe = true;
-    cmd.kill();
-    process.exit();
+    cmd.kill(9);
+    process.exit(0);
 }
 
 process.on('SIGTERM', function() {
