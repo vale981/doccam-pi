@@ -165,9 +165,25 @@ var commandHandlers = function commandHandlers(command, cb) {
                     wLog("Stop Command!", 1);
                     mustBe = true
                     cmd.kill();
+                    socket.emit('data', {
+                        type: 'message',
+                        data: {
+                            title: 'Success',
+                            type: 'success',
+                            text: 'Stopped!'
+                        }
+                    }, command.sender);
                 } else {
                     wLog("Start Command!", 1);
                     spawn();
+                    socket.emit('data', {
+                        type: 'message',
+                        data: {
+                            title: 'Success',
+                            type: 'success',
+                            text: 'Started!'
+                        }
+                    }, command.sender);
                 }
         },
         snap: function() {
@@ -238,6 +254,36 @@ var commandHandlers = function commandHandlers(command, cb) {
                 wLog("Start Command!", 1);
                 spawn();
             }
+            socket.emit('data', {
+                type: 'message',
+                data: {
+                    title: 'Success',
+                    type: 'success',
+                    text: 'Restarted!'
+                }
+            }, command.sender);
+        },
+        restartSSH: function() {
+            exec('forever stop SSH-Serv', () => {
+                connectSSH(() => {
+                    socket.emit('change', {
+                        change: {
+                            ssh: {
+                                port: status.ssh.port,
+                                camForwardPort: status.ssh.camForwardPort
+                            }
+                        }
+                    });
+                    socket.emit('data', {
+                        type: 'message',
+                        data: {
+                            title: 'Success',
+                            type: 'success',
+                            text: 'Restarted SSH Tunnels!'
+                        }
+                    }, command.sender);
+                });
+            });
         },
         getLogs: function() {
             fs.readFile(config.logPath, 'utf-8', function(err, data) {
@@ -354,7 +400,7 @@ function checkSSH(cb) {
                 re.lastIndex++;
             }
             if (alive) {
-                exec('forever stopall');
+                exec('forever stop SSH-Serv');
                 cb(false)
                 return;
             } else {
