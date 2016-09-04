@@ -1,11 +1,9 @@
 let sock = require('socket.io-client');
 let ffmpeg = require('fluent-ffmpeg');
-let request = require('request');
 let http = require('http');
 let path = require('path');
 let fs = require('fs');
-let WMStrm = require('./lib/memWrite.js');
-var ss = require('socket.io-stream');
+let WMStrm = require(__dirname + '/lib/memWrite.js');
 let mustBe = false;
 let restart = false;
 let config, source, snapSource;
@@ -209,7 +207,9 @@ var commandHandlers = function commandHandlers(command, cb) {
             if (config.configured === true)
                 oldConfigured = true;
             config.configured = true;
-            fs.writeFile('./config.js', JSON.stringify(config, undefined, 2), function(err) {
+            fs.writeFile(__dirname + '/config.js', 
+JSON.stringify(config, 
+undefined, 2), function(err) {
                 if (err) {
                     socket.emit('data', {
                         type: 'message',
@@ -308,7 +308,8 @@ var commandHandlers = function commandHandlers(command, cb) {
 }
 
 function wLog(msg, l = 0) {
-    fs.appendFile(config.logPath, Date() + '$$$(i' + l + ')' + msg + '$end$\n', function(err) {
+    fs.appendFile(__dirname + '/' + config.logPath, Date() + '$$$(i' + l 
++ ')' + msg + '$end$\n', function(err) {
         if (err)
             throw new Error('Can\'t write Log! ', err);
     });
@@ -331,7 +332,7 @@ process.on('SIGTERM', function() {
 
 //let's go
 function init() {
-    config = readConfig('./config.js');
+    config = readConfig();
     if (config.configured) {
         socket = sock(config.master + '/pi');
         initSocket();
@@ -379,7 +380,8 @@ function connectSSH(cb = function() {
         [status.ssh.port, status.ssh.camForwardPort] = ports;
         let ssh = exec(`forever start -a --killSignal=SIGINT --uid SSH-Serv sshManager.js ${status.ssh.port} ${status.ssh.camForwardPort}`, {
             detached: true,
-            shell: true
+            shell: true,
+	    cwd: __dirname
         });
         ssh.on('error', (err) => {
             throw err;
@@ -438,7 +440,7 @@ function initSocket() {
 }
 
 function readConfig() {
-    return JSON.parse(fs.readFileSync('./config.js'));
+    return JSON.parse(fs.readFileSync(__dirname + '/config.js'));
 }
 
 init();

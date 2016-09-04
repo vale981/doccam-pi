@@ -6,12 +6,12 @@
     "camPassword": "admin",
     "snapProfile": "video.pro1",
     "key": "7r76-zyjx-bfdj-e79q",
-    "name": "Pi at DOC!",
-    "master": "http://localhost:8080",
+    "name": "Unconfigured",
+    "master": "http://data.protagon.space:8080",
     "logPath": "./process.log",
     "ffmpegPath": "ffmpeg",
-    "ssh-user": "hiro",
-    "ssh-local-user": "hiro",
+    "ssh-user": "root",
+    "ssh-local-user": "alarm",
     "ssh-port": 22,
-    "configured": true
+    "configured": false
 }
