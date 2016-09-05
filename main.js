@@ -207,42 +207,45 @@ var commandHandlers = function commandHandlers(command, cb) {
             if (config.configured === true)
                 oldConfigured = true;
             config.configured = true;
-            fs.writeFile(__dirname + '/config.js', 
-JSON.stringify(config, 
-undefined, 2), function(err) {
-                if (err) {
-                    socket.emit('data', {
-                        type: 'message',
-                        data: {
-                            title: 'Error',
-                            type: 'error',
-                            text: 'Can\'t save the Settings!\n' + err.message
-                        }
-                    }, command.sender);
-                } else {
-                    socket.emit('data', {
-                        type: 'message',
-                        data: {
-                            title: 'Success',
-                            type: 'success',
-                            text: 'Settings Saved!'
-                        }
-                    }, command.sender);
-                    if (oldConfigured) {
-                        socket.emit('change', {
-                            type: 'settings',
-                            change: {
-                                config: command.data
+            fs.writeFile(__dirname + '/config.js',
+                JSON.stringify(config,
+                    undefined, 2),
+                function(err) {
+                    if (err) {
+                        socket.emit('data', {
+                            type: 'message',
+                            data: {
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Can\'t save the Settings!\n' + err.message
                             }
-                        });
-                        cmd.kill();
-                        spawn();
+                        }, command.sender);
                     } else {
-                        socket.disconnect();
-                        init();
+                        restartSSH(()=>{
+                          socket.emit('data', {
+                              type: 'message',
+                              data: {
+                                  title: 'Success',
+                                  type: 'success',
+                                  text: 'Settings Saved!'
+                              }
+                          }, command.sender);
+                          if (oldConfigured) {
+                              socket.emit('change', {
+                                  type: 'settings',
+                                  change: {
+                                      config: command.data
+                                  }
+                              });
+                              cmd.kill();
+                              spawn();
+                          } else {
+                              socket.disconnect();
+                              init();
+                          }
+                        });
                     }
-                }
-            });
+                });
         },
         restart: function() {
             if (status.running === 0) {
@@ -264,25 +267,15 @@ undefined, 2), function(err) {
             }, command.sender);
         },
         restartSSH: function() {
-            exec('forever stop SSH-Serv', () => {
-                connectSSH(() => {
-                    socket.emit('change', {
-                        change: {
-                            ssh: {
-                                port: status.ssh.port,
-                                camForwardPort: status.ssh.camForwardPort
-                            }
-                        }
-                    });
-                    socket.emit('data', {
-                        type: 'message',
-                        data: {
-                            title: 'Success',
-                            type: 'success',
-                            text: 'Restarted SSH Tunnels!'
-                        }
-                    }, command.sender);
-                });
+            restartSSH(() => {
+                socket.emit('data', {
+                    type: 'message',
+                    data: {
+                        title: 'Success',
+                        type: 'success',
+                        text: 'Restarted SSH Tunnels!'
+                    }
+                }, command.sender);
             });
         },
         getLogs: function() {
@@ -307,12 +300,29 @@ undefined, 2), function(err) {
         call();
 }
 
-function wLog(msg, l = 0) {
-    fs.appendFile(__dirname + '/' + config.logPath, Date() + '$$$(i' + l 
-+ ')' + msg + '$end$\n', function(err) {
-        if (err)
-            throw new Error('Can\'t write Log! ', err);
+function restartSSH(cb) {
+    exec('forever stop SSH-Serv', () => {
+        connectSSH(() => {
+            socket.emit('change', {
+                change: {
+                    ssh: {
+                        port: status.ssh.port,
+                        camForwardPort: status.ssh.camForwardPort
+                    }
+                }
+            });
+            cb();
+        });
     });
+}
+
+function wLog(msg, l = 0) {
+    fs.appendFile(__dirname + '/' + config.logPath, Date() + '$$$(i' + l +
+        ')' + msg + '$end$\n',
+        function(err) {
+            if (err)
+                throw new Error('Can\'t write Log! ', err);
+        });
 }
 
 function handleKill() {
@@ -326,9 +336,6 @@ function handleKill() {
 process.on('SIGTERM', function() {
     handleKill();
 });
-// process.on('SIGKILL', function () {
-//     handleKill();
-// });
 
 //let's go
 function init() {
@@ -381,7 +388,7 @@ function connectSSH(cb = function() {
         let ssh = exec(`forever start -a --killSignal=SIGINT --uid SSH-Serv sshManager.js ${status.ssh.port} ${status.ssh.camForwardPort}`, {
             detached: true,
             shell: true,
-	    cwd: __dirname
+            cwd: __dirname
         });
         ssh.on('error', (err) => {
             throw err;
