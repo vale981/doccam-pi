@@ -12,11 +12,7 @@ const spawnP = require('child_process').spawn;
 const winston = require('winston');
 
 let config, source, snapSource;
-winston.add(winston.transports.File, {
-    filename: __dirname + '/' + config.logPath,
-    maxsize: 2048,
-    maxFiles: 10
-});
+
 const importance = ['', 'info', 'warning', 'danger', 'success'];
 
 let dir = '/home';
@@ -339,6 +335,11 @@ process.on('SIGTERM', function() {
 //let's go
 function init() {
     config = readConfig();
+    winston.add(winston.transports.File, {
+        filename: __dirname + '/' + config.logPath,
+        maxsize: 2048,
+        maxFiles: 10
+    });
     if (config.configured) {
         socket = sock(config.master + '/pi');
         initSocket();
