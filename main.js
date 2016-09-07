@@ -1,15 +1,23 @@
-let sock = require('socket.io-client');
-let ffmpeg = require('fluent-ffmpeg');
-let http = require('http');
-let path = require('path');
-let fs = require('fs');
-let WMStrm = require(__dirname + '/lib/memWrite.js');
-let mustBe = false;
-let restart = false;
+const sock = require('socket.io-client');
+const ffmpeg = require('fluent-ffmpeg');
+const http = require('http');
+const path = require('path');
+const fs = require('fs');
+const WMStrm = require(__dirname + '/lib/memWrite.js');
+const mustBe = false;
+const restart = false;
+const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
+const spawnP = require('child_process').spawn;
+const winston = require('winston');
+
 let config, source, snapSource;
-let exec = require('child_process').exec;
-let execSync = require('child_process').execSync;
-let spawnP = require('child_process').spawn;
+winston.add(winston.transports.File, {
+    filename: __dirname + '/process.log',
+    maxsize: 2048,
+    maxFiles: 10
+});
+const importance = ['', 'info', 'warning', 'danger', 'success'];
 
 let dir = '/home';
 let status = {
@@ -36,7 +44,7 @@ let spawn = function() {
         .audioCodec('libmp3lame')
         .on('start', function(commandLine) {
             status.running = 0;
-            wLog('Spawned Ffmpeg with command: ' + commandLine, 4);
+            winston.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
         })
         .on('end', function(o, e) {
             imDead('Normal Stop.', e);
@@ -73,7 +81,7 @@ let getSnap = function(cb) {
     let picBuff = new WMStrm();
     recCmd = ffmpeg(snapSource)
         .on('start', function(commandLine) {
-            wLog('Snapshot ' + commandLine, 4);
+            winston.log(importance[4], 'Snapshot ' + commandLine);
         })
         .on('error', function(err, o, e) {})
         .outputFormat('mjpeg')
@@ -104,7 +112,7 @@ function imDead(why, e = '') {
         restart = false;
     }
     if (!mustBe) {
-        wLog('Crash! ' + why + ' ' + e, 2);
+        winston.log(importance[2], 'Crash! ' + why + ' ' + e);
         setTimeout(function() {
             spawn();
         }, 1000);
@@ -116,7 +124,7 @@ function criticalProblem(err, handler, ...args) {
     setTimeout(function() {
         status.running = 2
         status.error = err
-        wLog('Critical Problem: ' + errors[err], 3);
+        winston.log(importance[3], 'Critical Problem: ' + errors[err]);
         socket.emit('change', {
             type: 'error',
             change: {
@@ -160,7 +168,7 @@ var commandHandlers = function commandHandlers(command, cb) {
         startStop: function() {
             if (status.running !== 2)
                 if (status.running === 0) {
-                    wLog("Stop Command!", 1);
+                    winston.log(importance[1], "Stop Command!");
                     mustBe = true
                     cmd.kill();
                     socket.emit('data', {
@@ -172,7 +180,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                         }
                     }, command.sender);
                 } else {
-                    wLog("Start Command!", 1);
+                    winston.log(importance[1], "Start Command!");
                     spawn();
                     socket.emit('data', {
                         type: 'message',
@@ -221,40 +229,40 @@ var commandHandlers = function commandHandlers(command, cb) {
                             }
                         }, command.sender);
                     } else {
-                        restartSSH(()=>{
-                          socket.emit('data', {
-                              type: 'message',
-                              data: {
-                                  title: 'Success',
-                                  type: 'success',
-                                  text: 'Settings Saved!'
-                              }
-                          }, command.sender);
-                          if (oldConfigured) {
-                              socket.emit('change', {
-                                  type: 'settings',
-                                  change: {
-                                      config: command.data
-                                  }
-                              });
-                              cmd.kill();
-                              spawn();
-                          } else {
-                              socket.disconnect();
-                              init();
-                          }
+                        restartSSH(() => {
+                            socket.emit('data', {
+                                type: 'message',
+                                data: {
+                                    title: 'Success',
+                                    type: 'success',
+                                    text: 'Settings Saved!'
+                                }
+                            }, command.sender);
+                            if (oldConfigured) {
+                                socket.emit('change', {
+                                    type: 'settings',
+                                    change: {
+                                        config: command.data
+                                    }
+                                });
+                                cmd.kill();
+                                spawn();
+                            } else {
+                                socket.disconnect();
+                                init();
+                            }
                         });
                     }
                 });
         },
         restart: function() {
             if (status.running === 0) {
-                wLog("Restart Command!", 1);
+                winston.log(importance[1], "Restart Command!");
                 mustBe = true;
                 restart = true;
                 cmd.kill();
             } else {
-                wLog("Start Command!", 1);
+                winston.log(importance[1], "Start Command!");
                 spawn();
             }
             socket.emit('data', {
@@ -282,7 +290,7 @@ var commandHandlers = function commandHandlers(command, cb) {
             fs.readFile(config.logPath, 'utf-8', function(err, data) {
                 if (err) throw err;
 
-                let lines = data.trim().split('$end$').slice(-100);
+                let lines = data.trim().split('}\n').slice(-100);
                 lines.shift();
                 lines.pop();
 
@@ -316,18 +324,9 @@ function restartSSH(cb) {
     });
 }
 
-function wLog(msg, l = 0) {
-    fs.appendFile(__dirname + '/' + config.logPath, Date() + '$$$(i' + l +
-        ')' + msg + '$end$\n',
-        function(err) {
-            if (err)
-                throw new Error('Can\'t write Log! ', err);
-        });
-}
-
 function handleKill() {
     process.stdin.resume();
-    wLog("Received Shutdown Command");
+    winston.log(importance[0], "Received Shutdown Command");
     mustBe = true;
     cmd.kill();
     process.exit(0);
@@ -385,7 +384,7 @@ function connectSSH(cb = function() {
 }) {
     socket.emit('getSSHPort', ports => {
         [status.ssh.port, status.ssh.camForwardPort] = ports;
-        let ssh = exec(`forever start -a --killSignal=SIGINT --uid SSH-Serv sshManager.js ${status.ssh.port} ${status.ssh.camForwardPort}`, {
+        let ssh = exec(`forever start -a --killSignal=SIGINT --uid SSH-Serv sshManager.js ${status.ssh.port} ${status.ssh.camForwardPort} ${config.camPanelPort}`, {
             detached: true,
             shell: true,
             cwd: __dirname
@@ -423,7 +422,7 @@ function checkSSH(cb) {
 
 function initSocket() {
     socket.on('connect', function() {
-        wLog('Connected to Master: ' + config.master + '.');
+        winston.log(importance[0], 'Connected to Master: ' + config.master + '.');
         if (config['ssh-user'])
             initSSH(err => {
                 if (err)
