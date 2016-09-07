@@ -313,10 +313,11 @@ var commandHandlers = function commandHandlers(command, cb) {
             });
         },
         getLogs: function() {
-            fs.readFile(__dirname + '/' + config.logPath, 'utf-8', function(err, data) {
+            fs.readFile(__dirname + '/process.log', 'utf-8', function(err, data) {
                 if (err) throw err;
 
                 let lines = data.trim().split('\n').slice(-100);
+                console.log(lines);
                 lines.shift();
                 lines.pop();
 
