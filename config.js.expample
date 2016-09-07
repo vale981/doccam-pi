@@ -11,5 +11,6 @@
     "ssh-user": "root",
     "ssh-local-user": "alarm",
     "ssh-port": 22,
+    "customOutputOptions": "",
     "configured": false
 }
