@@ -13,7 +13,7 @@ const winston = require('winston');
 
 let config, source, snapSource;
 winston.add(winston.transports.File, {
-    filename: __dirname + '/process.log',
+    filename: __dirname + '/' + config.logPath,
     maxsize: 2048,
     maxFiles: 10
 });
@@ -287,7 +287,7 @@ var commandHandlers = function commandHandlers(command, cb) {
             });
         },
         getLogs: function() {
-            fs.readFile(config.logPath, 'utf-8', function(err, data) {
+            fs.readFile(__dirname + '/' + config.logPath, 'utf-8', function(err, data) {
                 if (err) throw err;
 
                 let lines = data.trim().split('}\n').slice(-100);
