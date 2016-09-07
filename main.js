@@ -317,9 +317,6 @@ var commandHandlers = function commandHandlers(command, cb) {
                 if (err) throw err;
 
                 let lines = data.trim().split('\n').slice(-100);
-                console.log(lines);
-                lines.shift();
-                lines.pop();
 
                 socket.emit('data', {
                     type: 'logs',
