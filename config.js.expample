@@ -7,7 +7,6 @@
     "key": "7r76-zyjx-bfdj-e79q",
     "name": "Unconfigured",
     "master": "http://data.protagon.space:8080",
-    "logPath": "./process.log",
     "ffmpegPath": "ffmpeg",
     "ssh-user": "root",
     "ssh-local-user": "alarm",
