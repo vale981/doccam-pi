@@ -38,7 +38,8 @@ let logger = new(winston.Logger)({
         new(winston.transports.File)({
             filename: __dirname + '/process.log',
             maxsize: 2048,
-            maxFiles: 10
+            maxFiles: 10,
+            level: 'success'
         })
     ]
 });
@@ -315,7 +316,7 @@ var commandHandlers = function commandHandlers(command, cb) {
             fs.readFile(__dirname + '/' + config.logPath, 'utf-8', function(err, data) {
                 if (err) throw err;
 
-                let lines = data.trim().split('}\n').slice(-100);
+                let lines = data.trim().split('\n').slice(-100);
                 lines.shift();
                 lines.pop();
 
