@@ -315,8 +315,9 @@ var commandHandlers = function commandHandlers(command, cb) {
                 if (err) {
                     lines = [];
                 } else
-                 lines = data.trim().split('\n').slice(-100);
-
+                    lines = data.trim().split('\n').slice(-100);
+                if (lines.length === 1)
+                    lines = [];
                 socket.emit('data', {
                     type: 'logs',
                     data: lines
