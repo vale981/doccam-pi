@@ -37,7 +37,7 @@ let logger = new(winston.Logger)({
         new(winston.transports.Console)({level: 'success'}),
         new(winston.transports.File)({
             filename: __dirname + '/process.log',
-            maxsize: 2048,
+            maxsize: 20048,
             maxFiles: 10,
             level: 'success'
         })
