@@ -12,7 +12,7 @@ let mustBe = false;
 let restart = false;
 let config, source, snapSource;
 
-const importance = ['', 'info', 'warning', 'danger', 'success'];
+const importance = ['normal', 'info', 'warning', 'danger', 'success'];
 var customLevels = {
     levels: {
         normal: 0,
