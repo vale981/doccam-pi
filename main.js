@@ -72,13 +72,12 @@ let spawn = function() {
             imDead('Normal Stop.', e);
         })
         .on('error', function(err, o, e) {
-            console.log(err);
             if (err.message.indexOf(source) > -1)
-                criticalProblem(0, handleDisc, config.camIP, config.camPort)
+                criticalProblem(0, e, handleDisc, config.camIP, config.camPort)
             else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config.key) > -1)
-                criticalProblem(1, handleDisc, 'a.rtmp.youtube.com/live2/', 1935);
+                criticalProblem(1, e, handleDisc, 'a.rtmp.youtube.com/live2/', 1935);
             else if (err.message.indexOf('spawn') > -1 || err.message.indexOf('niceness') > -1)
-                criticalProblem(2, function() {});
+                criticalProblem(2, e, function() {});
             else if (err.message.indexOf('SIGKILL') > -1)
                 imDead('Normal Stop.', e);
             else
@@ -142,11 +141,11 @@ function imDead(why, e = '') {
     mustBe = false;
 }
 
-function criticalProblem(err, handler, ...args) {
+function criticalProblem(err, e, handler, ...args) {
     setTimeout(function() {
         status.running = 2
         status.error = err
-        logger.log(importance[3], 'Critical Problem: ' + errors[err]);
+        logger.log(importance[3], 'Critical Problem: ' + errors[err] + '\n' + e);
         socket.emit('change', {
             type: 'error',
             change: {
