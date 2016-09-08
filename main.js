@@ -63,7 +63,7 @@ let spawn = function() {
             stdoutLines: 20
         })
         .videoCodec('copy')
-        .outputOptions([config.customOutputOptions])
+        .outputOptions(config.customOutputOptions)
         .on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
