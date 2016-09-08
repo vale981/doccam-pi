@@ -60,7 +60,6 @@ let spawn = function() {
     delete cmd;
     cmd = ffmpeg({
             source: source,
-            niceness: -20,
             stdoutLines: 20
         })
         .videoCodec('copy')
