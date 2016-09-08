@@ -63,7 +63,7 @@ let spawn = function() {
             stdoutLines: 20
         })
         .videoCodec('copy')
-        .outputOptions(['-bufsize 50000k', '-tune film', config.customOutputOptions])
+        .outputOptions([config.customOutputOptions])
         .on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
@@ -84,6 +84,7 @@ let spawn = function() {
                 imDead(err.message, e);
         })
         .outputFormat('flv')
+        .outputOptions(['-bufsize 50000k', '-tune film'])
         .output('rtmp://a.rtmp.youtube.com/live2/' + config.key);
     status.error = -1;
     socket.emit('change', {
