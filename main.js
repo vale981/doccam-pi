@@ -73,11 +73,11 @@ let spawn = function() {
         })
         .on('error', function(err, o, e) {
             if (err.message.indexOf(source) > -1)
-                criticalProblem(0, err, handleDisc, config.camIP, config.camPort)
+                criticalProblem(0, e, handleDisc, config.camIP, config.camPort)
             else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config.key) > -1)
-                criticalProblem(1, err, handleDisc, 'a.rtmp.youtube.com/live2/', 1935);
+                criticalProblem(1, e, handleDisc, 'a.rtmp.youtube.com/live2/', 1935);
             else if (err.message.indexOf('spawn') > -1 || err.message.indexOf('niceness') > -1)
-                criticalProblem(2, err, function() {});
+                criticalProblem(2, e, function() {});
             else if (err.message.indexOf('SIGKILL') > -1)
                 imDead('Normal Stop.', e);
             else
