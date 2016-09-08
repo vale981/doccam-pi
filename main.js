@@ -34,7 +34,9 @@ let winston = require('winston');
 let logger = new(winston.Logger)({
     levels: customLevels.levels,
     transports: [
-        new(winston.transports.Console)({level: 'success'}),
+        new(winston.transports.Console)({
+            level: 'success'
+        }),
         new(winston.transports.File)({
             filename: __dirname + '/process.log',
             maxsize: 20048,
@@ -309,9 +311,10 @@ var commandHandlers = function commandHandlers(command, cb) {
         },
         getLogs: function() {
             fs.readFile(__dirname + '/process.log', 'utf-8', function(err, data) {
-                if (err) throw err;
-
-                let lines = data.trim().split('\n').slice(-100);
+                let lines;
+                if (err) {
+                    lines = [];
+                } else lines = data.trim().split('\n').slice(-100);
 
                 socket.emit('data', {
                     type: 'logs',
