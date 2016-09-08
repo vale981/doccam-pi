@@ -82,8 +82,8 @@ let spawn = function() {
             else
                 imDead(err.message, e);
         })
-        .outputFormat('flv')
         .outputOptions(['-bufsize 50000k', '-tune film', config.customOutputOptions])
+        .outputFormat('flv')
         .output('rtmp://a.rtmp.youtube.com/live2/' + config.key);
     status.error = -1;
     socket.emit('change', {
