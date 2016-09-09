@@ -12,5 +12,7 @@
     "ssh-local-user": "alarm",
     "ssh-port": 22,
     "customOutputOptions": "",
+    "customVideoOptions": "",
+    "customAudioOptions": "-b:a 128k -ac 1 -ar 11025 -acodec libmp3lame",
     "configured": false
 }

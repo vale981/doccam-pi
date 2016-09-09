@@ -63,16 +63,20 @@ let spawn = function() {
     ffmpeg.setFfmpegPath(config.ffmpegPath)
     delete cmd;
     cmd = ffmpeg({
-            source: source,
-            stdoutLines: 20
-        })
-        .videoCodec('copy');
+        source: source,
+        stdoutLines: 20
+    });
     if (config.customOutputOptions !== "")
-        cmd.outputOptions(config.customOutputOptions.split(','));
+        cmd.outputOptions(config.customOutputOptions.replace(/\s+\,\s+/g, ',').replace(/\s+\-/g, ',-').split(','));
     if (config.customAudioOptions !== "")
-    	cmd.outputOptions(config.customAudioOptions.split(','));
+        cmd.outputOptions(config.customAudioOptions.replace(/\s+\,\s+/g, ',').replace(/\s+\-/g, ',-').split(','));
     else
-	cmd.AudioCodec('copy');
+        cmd.AudioCodec('copy');
+    if (config.customVideoOptions !== "")
+        cmd.outputOptions(config.customVideoOptions.replace(/\s+\,\s+/g, ',').replace(/\s+\-/g, ',-').split(','));
+    else
+        cmd.videoCodec('copy');
+
     cmd.on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
