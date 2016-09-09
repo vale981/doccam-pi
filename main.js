@@ -37,8 +37,8 @@ let logger = new(winston.Logger)({
         new(winston.transports.Console)({
             level: 'success'
         }),
-        new(winston.winston.transports.File)({
-            file: __dirname + '/process.log',
+        new(winston.transports.File)({
+            filename: __dirname + '/process.log',
             colorize: true,
             timestamp: true,
             json: true,
@@ -67,10 +67,12 @@ let spawn = function() {
             stdoutLines: 20
         })
         .videoCodec('copy');
-
     if (config.customOutputOptions !== "")
         cmd.outputOptions(config.customOutputOptions.split(','));
-
+    if (config.customAudioOptions !== "")
+    	cmd.outputOptions(config.customAudioOptions.split(','));
+    else
+	cmd.AudioCodec('copy');
     cmd.on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
