@@ -179,9 +179,11 @@ function isReachable(host, port, callback) {
     }, function(res) {
         callback(true);
     }).on("error", function(e) {
-        if (e.message == "socket hang up")
-            callback(true)
-        else
+        if (e.message == "socket hang up") {
+          setTimeout(function () {
+            callback(true);
+          }, 1000);
+        } else
             callback(false);
     });
 }
@@ -231,7 +233,7 @@ var commandHandlers = function commandHandlers(command, cb) {
         },
         changeSettings: function() {
             for (let set in command.data) {
-                if (config[set])
+                if (typeof config[set] !== 'undefined')
                     config[set] = command.data[set];
             }
             let oldConfigured;
