@@ -327,16 +327,14 @@ var commandHandlers = function commandHandlers(command, cb) {
         },
         getLogs: function() {
           logger.query({limit: 100}}, function (err, data) {
-                let lines;
                 if (err) {
-                    lines = [];
+                    data = [];
                 } else
-                    lines = data;
-                if (lines.length === 1)
-                    lines = [];
+                if (data.length === 1)
+                    data = [];
                 socket.emit('data', {
                     type: 'logs',
-                    data: lines
+                    data: data
                 }, command.sender);
             });
         }
