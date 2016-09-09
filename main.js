@@ -31,21 +31,19 @@ var customLevels = {
 };
 
 let winston = require('winston');
-require('winston-logrotate');
 let logger = new(winston.Logger)({
     levels: customLevels.levels,
     transports: [
         new(winston.transports.Console)({
             level: 'success'
         }),
-        new(winston.transports.Rotate)({
+        new(winston.winston.transports.File)({
             file: __dirname + '/process.log',
-            colorize: false,
+            colorize: true,
             timestamp: true,
             json: true,
-            max: '10m',
-            keep: 5,
-            compress: true
+            maxsize: 1000000,
+            maxFiles: 1
         })
     ]
 });
@@ -68,9 +66,12 @@ let spawn = function() {
             source: source,
             stdoutLines: 20
         })
-        .videoCodec('copy')
-        .outputOptions(config.customOutputOptions.split(','))
-        .on('start', function(commandLine) {
+        .videoCodec('copy');
+
+      if(config.customOutputOptions !== "")
+        cmd.outputOptions(config.customOutputOptions.split(','));
+
+      cmd.on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
         })
