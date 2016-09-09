@@ -31,17 +31,21 @@ var customLevels = {
 };
 
 let winston = require('winston');
+require('winston-logrotate');
 let logger = new(winston.Logger)({
     levels: customLevels.levels,
     transports: [
         new(winston.transports.Console)({
             level: 'success'
         }),
-        new(winston.transports.File)({
-            filename: __dirname + '/process.log',
-            maxsize: 20048,
-            maxFiles: 10,
-            level: 'success'
+        new(winston.transports.Rotate)({
+            file: __dirname + '/process.log',
+            colorize: false,
+            timestamp: true,
+            json: true,
+            max: '10m',
+            keep: 5,
+            compress: true
         })
     ]
 });
@@ -180,9 +184,9 @@ function isReachable(host, port, callback) {
         callback(true);
     }).on("error", function(e) {
         if (e.message == "socket hang up") {
-          setTimeout(function () {
-            callback(true);
-          }, 1000);
+            setTimeout(function() {
+                callback(true);
+            }, 1000);
         } else
             callback(false);
     });
