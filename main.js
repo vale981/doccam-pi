@@ -42,8 +42,8 @@ let logger = new(winston.Logger)({
             colorize: true,
             timestamp: true,
             json: true,
-            maxsize: 1000000,
-            maxFiles: 1
+            maxsize: 500000,
+            maxFiles: 10
         })
     ]
 });
@@ -326,12 +326,12 @@ var commandHandlers = function commandHandlers(command, cb) {
             });
         },
         getLogs: function() {
-            fs.readFile(__dirname + '/process.log', 'utf-8', function(err, data) {
+          logger.query({limit: 100}}, function (err, data) {
                 let lines;
                 if (err) {
                     lines = [];
                 } else
-                    lines = data.trim().split('\n').slice(-100);
+                    lines = data;
                 if (lines.length === 1)
                     lines = [];
                 socket.emit('data', {
