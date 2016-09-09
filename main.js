@@ -326,8 +326,9 @@ var commandHandlers = function commandHandlers(command, cb) {
             });
         },
         getLogs: function() {
-          logger.query({limit: 100}}, function (err, data) {
-                if (err) {
+          logger.query({limit: 100}, function (err, data) {
+		data = data.file;
+		if (err) {
                     data = [];
                 } else
                 if (data.length === 1)
