@@ -41,6 +41,7 @@ let logger = new(winston.Logger)({
             filename: __dirname + '/process.log',
             colorize: true,
             timestamp: true,
+	    level: 'success',
             json: true,
             maxsize: 500000,
             maxFiles: 10
@@ -331,7 +332,7 @@ var commandHandlers = function commandHandlers(command, cb) {
 		if (err) {
                     data = [];
                 } else
-                if (data.length === 1)
+                if (data.length === 0)
                     data = [];
                 socket.emit('data', {
                     type: 'logs',
