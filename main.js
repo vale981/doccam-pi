@@ -37,8 +37,8 @@ let logger = new(winston.Logger)({
         new(winston.transports.Console)({
             level: 'success'
         }),
-        new(winston.winston.transports.File)({
-            file: __dirname + '/process.log',
+        new(winston.transports.File)({
+            filename: __dirname + '/process.log',
             colorize: true,
             timestamp: true,
             json: true,
