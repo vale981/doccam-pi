@@ -37,8 +37,8 @@ let logger = new(winston.Logger)({
         new(winston.transports.Console)({
             level: 'success'
         }),
-        new(winston.transports.File)({
-            filename: __dirname + '/process.log',
+        new(winston.winston.transports.File)({
+            file: __dirname + '/process.log',
             colorize: true,
             timestamp: true,
             json: true,
@@ -68,10 +68,10 @@ let spawn = function() {
         })
         .videoCodec('copy');
 
-      if(config.customOutputOptions !== "")
+    if (config.customOutputOptions !== "")
         cmd.outputOptions(config.customOutputOptions.split(','));
 
-      cmd.on('start', function(commandLine) {
+    cmd.on('start', function(commandLine) {
             status.running = 0;
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
         })
@@ -149,19 +149,22 @@ function imDead(why, e = '') {
 }
 
 function criticalProblem(err, e, handler, ...args) {
-    setTimeout(function() {
-        status.running = 2
-        status.error = err
-        logger.log(importance[3], 'Critical Problem: ' + errors[err] + '\n' + e);
-        socket.emit('change', {
-            type: 'error',
-            change: {
-                running: 2,
-                error: err
-            }
-        });
-        handler(args)
-    }, 1000);
+    if (!mustBe) {
+        setTimeout(function() {
+            status.running = 2
+            status.error = err
+            logger.log(importance[3], 'Critical Problem: ' + errors[err] + '\n' + e);
+            socket.emit('change', {
+                type: 'error',
+                change: {
+                    running: 2,
+                    error: err
+                }
+            });
+            handler(args)
+        }, 1000);
+    }
+    mustBe = false;
 }
 
 function handleDisc(info) {
