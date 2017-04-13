@@ -147,7 +147,7 @@ function imDead(why, e = '') {
         restart = false;
     }
     if (!mustBe) {
-        logger.log(importance[2], 'Crash! ' + why + ' ' + e);
+        logger.log(importance[2], 'Crash! ' + e);
         setTimeout(function() {
             spawn();
         }, 1000);
