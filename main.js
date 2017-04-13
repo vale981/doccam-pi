@@ -211,7 +211,7 @@ function stopFFMPEG() {
     setTimeout(() => {
         logger.log(importance[3], "Force Stop!");
         cmd.kill();
-    }, 30);
+    }, 3000);
 }
 
 var commandHandlers = function commandHandlers(command, cb) {
@@ -351,7 +351,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                 }, command.sender);
             });
         }
-    }
+    };
 
     //call the handler
     var call = handlers[command.command];
