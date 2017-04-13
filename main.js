@@ -57,7 +57,7 @@ let status = {
 }
 
 let errors = ['Camera Disconnected', 'YoutTube Disconnected', 'Wrong ffmpeg executable.'];
-let cmd, sshpid;
+let cmd;
 
 let spawn = function() {
     source = 'rtsp://' + config.camIP + ':' + config.camPort + '/' + config.camProfile;
@@ -203,14 +203,25 @@ function isReachable(host, port, callback) {
     });
 }
 
+function stopFFMPEG() {
+    if(!cmd)
+        return;
+
+    cmd.kill('SIGINT');
+    setTimeout(() => {
+        logger.log(importance[3], "Force Stop!");
+        cmd.kill();
+    }, 30);
+}
+
 var commandHandlers = function commandHandlers(command, cb) {
     var handlers = {
         startStop: function() {
             if (status.running !== 2)
                 if (status.running === 0) {
                     logger.log(importance[1], "Stop Command!");
-                    mustBe = true
-                    cmd.kill();
+                    mustBe = true;
+                    stopFFMPEG();
                     socket.emit('data', {
                         type: 'message',
                         data: {
@@ -285,7 +296,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                                         config: command.data
                                     }
                                 });
-                                cmd.kill();
+                                stopFFMPEG();
                                 spawn();
                             } else {
                                 socket.disconnect();
@@ -300,7 +311,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                 logger.log(importance[1], "Restart Command!");
                 mustBe = true;
                 restart = true;
-                cmd.kill();
+                stopFFMPEG();
             } else {
                 logger.log(importance[1], "Start Command!");
                 spawn();
@@ -396,10 +407,9 @@ function init() {
 }
 
 
-let d = false;
-
 function initSSH(cb) {
     status.ssh = {
+        // that Could come from the Master server!
         user: config['ssh-user'],
         localUser: config['ssh-local-user'],
         masterPort: config['ssh-port']
@@ -431,7 +441,14 @@ function connectSSH(cb = function() {
             cwd: __dirname
         });
         ssh.on('error', (err) => {
-            throw err;
+             socket.emit('data', {
+                    type: 'message',
+                    data: {
+                        title: 'Error',
+                        type: 'error',
+                        text: 'Could not start SSH tunnels!'
+                    }
+                }, command.sender);
         });
         cb();
     });
@@ -476,7 +493,6 @@ function initSocket() {
     });
 
     socket.on('disconnect', function() {
-        d = true;
         socket.disconnect();
         init();
     });
