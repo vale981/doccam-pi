@@ -8,7 +8,7 @@
     "name": "Unconfigured",
     "master": "http://data.protagon.space:8080",
     "ffmpegPath": "ffmpeg",
-    "ssh-user": "root",
+    "ssh-user": "ssh",
     "ssh-local-user": "alarm",
     "ssh-port": 22,
     "customOutputOptions": "",
