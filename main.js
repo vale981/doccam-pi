@@ -139,7 +139,7 @@ function imDead(why, e = '') {
     socket.emit('change', {
         type: 'startStop',
         change: {
-            running: 1,
+            running: 1
         }
     });
     if (restart) {
@@ -158,8 +158,8 @@ function imDead(why, e = '') {
 function criticalProblem(err, e, handler, ...args) {
     if (!mustBe) {
         setTimeout(function() {
-            status.running = 2
-            status.error = err
+            status.running = 2;
+            status.error = err;
             logger.log(importance[3], 'Critical Problem: ' + errors[err] + '\n' + e);
             socket.emit('change', {
                 type: 'error',
@@ -175,7 +175,7 @@ function criticalProblem(err, e, handler, ...args) {
 }
 
 function handleDisc(info) {
-    let [host, port] = info
+    let [host, port] = info;
     isReachable(host, port, is => {
         if (is) {
             spawn();
@@ -221,7 +221,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                 if (status.running === 0) {
                     logger.log(importance[1], "Stop Command!");
                     mustBe = true;
-                    stopFFMPEG();
+                    cmd.kill();
                     socket.emit('data', {
                         type: 'message',
                         data: {
