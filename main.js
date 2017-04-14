@@ -220,6 +220,9 @@ function stopFFMPEG() {
 var commandHandlers = function commandHandlers(command, cb) {
     var handlers = {
         startStop: function() {
+	    if(restart)
+		return;
+	    
             if (status.running !== 2)
                 if (status.running === 0) {
                     logger.log(importance[1], "Stop Command!");
