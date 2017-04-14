@@ -10,7 +10,7 @@ const spawnP = require('child_process').spawn;
 
 let mustBe = false;
 let restart = false;
-let config, source, snapSource;
+let config, source, snapSource, stopTimeout;
 
 const importance = ['normal', 'info', 'warning', 'danger', 'success'];
 var customLevels = {
@@ -83,6 +83,7 @@ let spawn = function() {
             logger.log(importance[4], 'Spawned Ffmpeg with command: ' + commandLine);
         })
         .on('end', function(o, e) {
+	    clearTimeout(stopTimeout);
             imDead('Normal Stop.', e);
         })
         .on('error', function(err, o, e) {
@@ -204,11 +205,8 @@ function isReachable(host, port, callback) {
 }
 
 function stopFFMPEG() {
-    if(!cmd)
-        return;
-
     cmd.kill('SIGINT');
-    setTimeout(() => {
+    stopTimeout = setTimeout(() => {
         logger.log(importance[3], "Force Stop!");
         cmd.kill();
     }, 3000);
@@ -221,7 +219,7 @@ var commandHandlers = function commandHandlers(command, cb) {
                 if (status.running === 0) {
                     logger.log(importance[1], "Stop Command!");
                     mustBe = true;
-                    cmd.kill();
+                    stopFFMPEG();
                     socket.emit('data', {
                         type: 'message',
                         data: {
