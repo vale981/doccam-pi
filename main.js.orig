@@ -1,7 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-// Main Module - Communicates with the Server and Orchestrates the other Moules. //
-///////////////////////////////////////////////////////////////////////////////////
-
 const sock = require('socket.io-client');
 const ffmpeg = require('fluent-ffmpeg');
 const http = require('http');
@@ -12,15 +8,12 @@ const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 const spawnP = require('child_process').spawn;
 
-/**
- * Custom Modules
- * Yet to be initialized.
- */
+
 const logger = require('src/logger.js');
 
-///////////////////////////////////////////////////////////////////////////////
-//                                Declarations                               //
-///////////////////////////////////////////////////////////////////////////////
+/**
+ * Global Variables
+ */
 
 // Force a Stop.
 let mustBe = false;
@@ -37,6 +30,7 @@ let status = {
 
 // Minor declarations.
 let config, source, snapSource, stopTimeout;
+
 
 let spawn = function() {
     source = 'rtsp://' + config.camIP + ':' + config.camPort + '/' + config.camProfile;
