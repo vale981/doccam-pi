@@ -79,7 +79,7 @@ let spawn = function() {
         .outputFormat('flv')
         .outputOptions(['-bufsize 50000k', '-tune film'])
         .output('rtmp://a.rtmp.youtube.com/live2/' + config.key);
-    
+
     status.error = -1;
     socket.emit('change', {
         type: 'startStop',
@@ -115,11 +115,11 @@ let getSnap = function(cb) {
 }
 
 function imDead(why, e = '') {
-    if(stopTimeout) {
-	clearTimeout(stopTimeout);
-	stopTimeout = false;
+    if (stopTimeout) {
+        clearTimeout(stopTimeout);
+        stopTimeout = false;
     }
-    
+
     status.running = 1;
     socket.emit('change', {
         type: 'startStop',
@@ -199,9 +199,9 @@ function stopFFMPEG() {
 var commandHandlers = function commandHandlers(command, cb) {
     var handlers = {
         startStop: function() {
-	    if(restart)
-		return;
-	    
+            if (restart)
+                return;
+
             if (status.running !== 2)
                 if (status.running === 0) {
                     logger.log(logger.importance[1], "Stop Command!");
@@ -323,9 +323,11 @@ var commandHandlers = function commandHandlers(command, cb) {
             });
         },
         getLogs: function() {
-          logger.query({limit: 100}, function (err, data) {
-		data = data.file;
-		if (err) {
+            logger.query({
+                limit: 100
+            }, function(err, data) {
+                data = data.file;
+                if (err) {
                     data = [];
                 } else
                 if (data.length === 0)
@@ -426,14 +428,14 @@ function connectSSH(cb = function() {
             cwd: __dirname
         });
         ssh.on('error', (err) => {
-             socket.emit('data', {
-                    type: 'message',
-                    data: {
-                        title: 'Error',
-                        type: 'error',
-                        text: 'Could not start SSH tunnels!'
-                    }
-                }, command.sender);
+            socket.emit('data', {
+                type: 'message',
+                data: {
+                    title: 'Error',
+                    type: 'error',
+                    text: 'Could not start SSH tunnels!'
+                }
+            }, command.sender);
         });
         cb();
     });

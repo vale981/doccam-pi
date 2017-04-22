@@ -4,6 +4,7 @@
 
 const ffmpeg = require('fluent-ffmpeg');
 const http   = require('http');
+const logger = require('./logger');
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
@@ -18,10 +19,7 @@ let cmd = ffmpeg({
 });
 
 // The Config, Logger and a handle for the kill timeout.
-let config, logger, stopHandle = false, connectHandle = false;
-
-// True if stream should be restarted.
-let restart = false;
+let _config, _stopHandle = false, _connectHandle = false;
 
 // Error Texts
 let errorDescriptions = ['Camera Disconnected',
@@ -29,14 +27,11 @@ let errorDescriptions = ['Camera Disconnected',
 			 'Wrong ffmpeg executable.',
 			 'Unknown Error - Restarting'];
 
-// Internal Status
-let status = {
-    streaming: false,
-    error: false
-};
-
 // The stream source url. Yet to be set.
 let source = "";
+
+// The State Object.
+let State;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                    Code                                   //
@@ -44,23 +39,25 @@ let source = "";
 
 /**
  * Interface to the ffmpeg process. Uses fluent-ffmpeg.
- * @param {Object} _config Configuration for the stream. @see config.js.example
- * @param {Object} _logger Logger Instance from main module.
+ * @param {Object} config Configuration for the stream. @see config.js.example
  */
-let command =  function(_config, _logger){
+let Commander = function(State){
     // singleton
     if(self)
 	return self;
 
+    // Make `new` optional.
+    if(!(this instanceof Commander))
+	return new Commander(config, logger);
+
     
-    // TODO: Better Error Checking
-    if(!_config)
+    // TODO: Better Error Checkinglet
+    if(!config)
 	throw new Error("Invalid Config");
 
-    if(!_logger)
+    if(!logger)
 	throw new Error("Invalid Logger");
 
-    config = _config;
 
     self = this;
            
@@ -98,6 +95,8 @@ let command =  function(_config, _logger){
 	cmd.on('end', stopped);
 	
         cmd.on('error', crashed);
+
+	return cmd;
     };
 
     let ffmpegCommand = function() {
@@ -108,7 +107,7 @@ let command =  function(_config, _logger){
     // Start streaming.
     let start = function() {
 	// Ignore if we try to reconnect.
-	if(connectHandle)
+	if(_connectHandle)
 	    return;
 	
 	cmd.run();
@@ -127,7 +126,7 @@ let command =  function(_config, _logger){
     let stop = function() {
 	cmd.kill('SIGINT');
 
-	stopHandle = setTimeout(() => {
+	_stopHandle = setTimeout(() => {
             logger.log(logger.importance[3], "Force Stop!");
             cmd.kill();
 	}, 3000);
@@ -185,7 +184,7 @@ function crashed(error, stdout, stderr){
 	status.error = 0;
 
     // Can't connect to the Internet / YouTube
-    else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config.key) > -1)
+    else if (err.message.indexOf(source + 'Input/output error') > -1 || err.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + _config.key) > -1)
 	status.error = 1;
 
     // Wrong FFMPEG Executable
@@ -229,7 +228,7 @@ function tryReconnect( host, port ){
 	    // NOTE: Ugly!
 	    
             // We have a response! Connection works.
-	    connectHandle = false;
+	    _connectHandle = false;
 	    self.start();
         }, 1000);
     }).on("error", function(e) {
@@ -238,12 +237,12 @@ function tryReconnect( host, port ){
 		// NOTE: Ugly!
 		
                 // We have a response! Connection works.
-		connectHandle = false;
+		_connectHandle = false;
 		self.start();
             }, 1000);
         } else {
 	    // try again
-            connectHandle = setTimeout(function(){
+            _connectHandle = setTimeout(function(){
 		tryReconnect(host, port);
 	    }, 1000);
 	}
