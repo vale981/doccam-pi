@@ -1,0 +1,71 @@
+/** The central interface to the streaming process.
+ * @module Streamer
+ */
+
+const logger = require('./logger');
+
+///////////////////////////////////////////////////////////////////////////////
+//                                Declarations                               //
+///////////////////////////////////////////////////////////////////////////////
+
+// Object oriented `this`.
+let self = false;
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                    Code                                   //
+///////////////////////////////////////////////////////////////////////////////
+
+// TODO: Log state changes.
+
+/**
+ * @class Streamer
+ * The central control Object (singleton for now) which has the permission to change state.
+ * 
+ * @constructor 
+ * @param { Object } communicator A communicator object. @see communicator.js - Optional //TODO: Find proper tag.
+ */
+function Streamer(communicator = false) {
+    // singleton
+    if (self)
+        return self;
+
+    // Make `new` optional.
+    if (!(this instanceof Streamer))
+        return new Streamer(_communicator);
+
+    _communicator = communicator;
+    
+    self = this;
+    return this;
+};
+
+module.exports = Streamer;
+
+/**
+ * Set the communicator object and enable the state sync with the server.
+ * @param {Object} communicator A communicator object. @see communicator.js
+ */
+Streamer.prototype.setCommunicator = function(communicator) {
+    if (_communicator)
+        _communicator = communicator;
+    else
+        logger.dbgmsdg("Invalid Communicator");
+};
+
+/**
+ * Get the current config.
+ * @returns { * } The current config.
+ */
+Streamer.prototype.getConfig = function(){
+    return store.getStreamer().config;
+};
+
+/**
+ * Utilities
+ */
+
+
+

@@ -1,0 +1,42 @@
+/** Config read/write utilities.
+ * @module Utilities/Config
+ */
+
+const Promise = require('promise');
+const fs = require('fs');
+const logger = require('../logger.js');
+
+// TODO: Config path in defs
+
+module.exports = {};
+
+// TODO Default CFG
+/**
+ * Read the JSON config file.
+ * @returns { Object | bool } Returns the parsed config or false in case of an error.
+ */
+module.exports.read = function() {
+    try {
+	return JSON.parse(fs.readFileSync(__dirname + '/../../config.js'));  //TODO: Nicer
+    } catch (e) {
+	return false; // Log that.
+    }
+};
+
+/**
+ * Writes the config to disk.
+ * @param {Object} state A function to retrieve the current state. This makes it harder to accidentially write arbitrary code.
+ * @returns { Promise } A promise for writing the configuration.
+ */
+module.exports.write = function( getState ){
+    return new Promise((resolve, reject) => {
+	fs.writeFile(__dirname + '/config.js',
+		     JSON.stringify(getState().config, undefined, 2),
+		     err => {
+			 if(err)
+			     reject(err);
+			 else
+			     resolve();
+		     });
+    });
+};

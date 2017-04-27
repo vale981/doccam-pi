@@ -11,8 +11,36 @@ const socketio = require('socket.io-client');
 // Object oriented `this`.
 let self = false;
 
+// Get the current application state.
+let getState;
+
 ///////////////////////////////////////////////////////////////////////////////
 //                                    Code                                   //
 ///////////////////////////////////////////////////////////////////////////////
 
-module.exports = function Communicator(){};
+module.exports = function Communicator(_getState){
+    // singleton
+    if(self)
+	return self;
+
+    // Make `new` optional.
+    if(!(this instanceof Communicator))
+	return new Communicator();
+
+    if (!_getState) {
+	throw new Error('Invalid getState() function.');
+    }
+
+    // define the locals
+    getState = _getState;
+    
+    init();
+    self = this;
+    return this;
+};
+
+
+
+/**
+ * Utilities
+ */

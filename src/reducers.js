@@ -1,70 +1,119 @@
-///////////////////////////////////////////////////////////////////////////////
-//                                  Reducers                                 //
-///////////////////////////////////////////////////////////////////////////////
+/** Outsourced definition of the Reducers for redux.
+ * @see {@link http://redux.js.org/docs/basics/Reducers.html}
+ * @module Reducers
+ */
 
 const redux = require('redux');
-const actions = require('./actions');
+const { UPDATE_CONFIG,
+	REQUEST_START,
+	SET_STARTED,
+	REQUEST_STOP,
+	SET_STOPPED,
+	REQUEST_RESTART,
+	SET_ERROR,
+	TRY_RECONECT,
+	SET_NAME}= require('./actions').actions;
 
 let reducers = {};
 
 /**
- * Set the streaming/error state.
+ * Set the error code. @see ffmpegCommand.js for the error code descriptions.
  */
-reducers.error = function(state = -1, action) {
+function error(state = false, action) {
     switch (action.type) {
-    case actions.SET_ERROR:
-	if((typeof action.data) == 'undefined') {
-	    return action.data;
-            break;
-	}
-    default:
-        return state;
-    }
-};
-
-/**
- * Set the streaming state.
- */
-
-reducers.streaming = function(state = 'STOPPED', action) {
-    switch (action.type) {
-    case actions.START:
-    case actions.STOP:
-	return action.type == actions.START;
-	break;
-    default:
-        return state;
-    }
-};
-
-/**
- * Set the restart flag.
- *
- * The restart flag get's automaticly unset, as soon as the start action gets reduced.
- */
-
-reducers.restart = function(state = false, action) {
-    switch (action.type) {
-    case actions.RESTART:
-	return true;
-    case actions.START:
+    case SET_ERROR:
+	return action.data;
+    case SET_STARTED:
 	return false;
     default:
         return state;
     }
 };
 
+// TODO: Add central definition
+/**
+ * Set the error handling procedure.
+ */
+function handleError(state = false, action) {
+    switch (action.type) {
+    case SET_STARTED:
+	return false;
+    case TRY_RECONECT:
+	return 'RECONNECTING';
+    default:
+        return state;
+    }
+}
+
+
 
 /**
- * Update the config.
+ * Set the running flag.
+ * It can either be RUNNING, STARTING, STOPPING or STOPPED
  */
-reducers.config = function(state = {}, action) {
+function running(state = 'STOPPED', action) {
     switch (action.type) {
-        case actions.UPDATE_CONFIG:
-            return Object.assign({}, state, action.data);
-            break;
-        default:
-            return state;
+    case REQUEST_START:
+	return 'STARTING';
+    case SET_STARTED:
+	return 'RUNNING';
+    case REQUEST_STOP:
+	return 'STOPPING';
+    case SET_STOPPED:
+	return 'STOPPED';
+    default:
+        return state;
+    }
+}
+
+/**
+ * Set the restarting flag.
+ */
+function restarting(state = false, action) {
+    switch (action.type) {
+    case REQUEST_RESTART:
+	return true;
+    default:
+        return state;
+    }
+}
+
+/**
+ * @function stream
+ * @description Stream Root Reducer.
+ */
+reducers.stream = function(state = {}, action){
+    return {
+	running: running(state.running, action),
+	error: error(state.error, action),
+	handleError: handleError(state.handleError, action),
+	restarting: restarting(state.restarting, action)
+    };
+};
+
+/**
+ * @function config
+ * @description Updates the config state.
+ */
+reducers.config = function(state = false, action) {
+    switch (action.type) {
+    case UPDATE_CONFIG:
+        return Object.assign({}, state, action.data);
+    default:
+        return state;
+    }
+};
+
+/**
+ * @function name
+ * @description Set the name state.
+ */
+reducers.name = function(state = 'Unnamed', action) {
+    switch (action.type) {
+    case SET_NAME:
+	return action.data;
+    default:
+	return state;
     }
 };
 

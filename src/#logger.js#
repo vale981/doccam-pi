@@ -48,7 +48,7 @@ let logger = (function() {
 	    levels: customLevels.levels,
 	    transports: [
 		new(winston.transports.Console)({
-		    level: 'success'
+p		    level: 'success'
 		}),
 		new(winston.transports.File)({
 		    filename: __dirname + '/process.log',

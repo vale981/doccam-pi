@@ -1,8 +1,7 @@
-/** Redux Wrapper to hold the state and communicate with the Server
- * @module State
+/** The central interface to the streaming process.
+ * @module Streamer
  */
 
-const redux = require('redux');
 const logger = require('./logger');
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,23 +21,22 @@ let self = false;
  */
 let initialState = {
     stream: {
-	running: false,
+	running: 'STOPPED',
 	error: -1,
-	reconnecting: false
+	reconnecting: false,
+	restarting: false
     },
     config: {}
 }; // NOTE: Maybe in main.js
 
-// The socket.io connection from the main-module.
+/**
+ * The socket.io connection from the main-module.
+ */
 let _communicator;
-
-// Actions
-const actions = require('./actions');
-
-// Action Creators
-const creators = require('./actionCreators');
-const dispatchers = redux.bindActionCreators(creators);
-
+ 
+/**
+ * Redux Actions
+ */
 // Reducer
 const reducer = require('./reducers');
 
@@ -52,20 +50,20 @@ const store = redux.createStore(reducer, initialState);
 // TODO: Log state changes.
 
 /**
- * The central redux state manager. The module exposes central action dispatchers. Updates to the state get communicated to the server.
- *
+ * @class Streamer
+ * The central control Object (singleton for now) which has the permission to change state.
+ * 
  * @constructor 
- * @member [Action Dispatchers] The action creators (@see actionCreators.js) are bound to the dispatch function and made member of the State object.
  * @param { Object } communicator A communicator object. @see communicator.js - Optional //TODO: Find proper tag.
  */
-function State(communicator = false) {
+function Streamer(communicator = false) {
     // singleton
     if (self)
         return self;
 
     // Make `new` optional.
-    if (!(this instanceof State))
-        return new State(_communicator);
+    if (!(this instanceof Streamer))
+        return new Streamer(_communicator);
 
     _communicator = communicator;
     
@@ -73,13 +71,13 @@ function State(communicator = false) {
     return this;
 };
 
-applyDispatchers(creators);
+module.exports = Streamer;
 
 /**
  * Set the communicator object and enable the state sync with the server.
  * @param {Object} communicator A communicator object. @see communicator.js
  */
-State.prototype.setCommunicator = function(communicator) {
+Streamer.prototype.setCommunicator = function(communicator) {
     if (_communicator)
         _communicator = communicator;
     else
@@ -87,43 +85,16 @@ State.prototype.setCommunicator = function(communicator) {
 };
 
 /**
- * Wrapper for redux.
- * @returns { Object } The current state.
- */
-State.prototype.getState = function(){
-    return store.getState();
-};
-
-/**
  * Get the current config.
  * @returns { * } The current config.
  */
-State.prototype.getConfig = function(){
-    return store.getState().config;
+Streamer.prototype.getConfig = function(){
+    return store.getStreamer().config;
 };
 
 /**
  * Utilities
  */
-
-/**
- * Adds prototypes for the action dispatchers to the State. 
- * @param { Object } creators
- * @throws { Error } If a method with the creators name already exists. @see actionCreators.js
- */
-function applyDispatchers( creators ){
-    for(let creator in creators){
-	if(State.prototype[creator])
-	    throw new Error(`State has already a meber '${creator}'.`);
-	
-	State.prototype[creator] = function(){
-	    store.dispatch(creators[creator].apply(undefined, arguments));
-	};
-    }
-}
-
-
-module.exports = State;
 
 
 
