@@ -5,8 +5,8 @@
     "camProfile": "video.pro1",
     "snapProfile": "video.pro1",
     "key": "7r76-zyjx-bfdj-e79q",
-    "name": "Unconfigured",
-    "master": "http://data.protagon.space:8080",
+    "name": "Uncdonfigured",
+    "master": "http://localhost:8080",
     "ffmpegPath": "ffmpeg",
     "ssh-user": "ssh",
     "ssh-local-user": "alarm",
@@ -14,5 +14,5 @@
     "customOutputOptions": "",
     "customVideoOptions": "",
     "customAudioOptions": "-b:a 128k -ac 1 -ar 11025 -acodec libmp3lame",
-    "configured": false
+    "configured": true
 }

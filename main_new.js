@@ -6,6 +6,9 @@
 const redux = require('redux');
 const ReduxThunk = require('redux-thunk').default;
 const communicator =  require('./src/communicator.js');
+const commander =  require('./src/commander.js');
+const logger = require('./src/logger.js');
+
 ///////////////////////////////////////////////////////////////////////////////
 //                                   Redux                                   //
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,6 +31,7 @@ let initialState = {
 	handleError: false,
 	restaring: false
     },
+    connected: false,
     config: false
 };
 
@@ -35,7 +39,7 @@ let initialState = {
 const reducer = require('./src/reducers');
 
 // Reference to the store of the application state.
-const store = redux.createStore(reducer, initialState, redux.applyMiddleware(ReduxThunk, communicator.middleware));
+const store = redux.createStore(reducer, initialState, redux.applyMiddleware(ReduxThunk, logger.middleware, communicator.middleware));
 
 // The dispatch function for the state.
 const dispatch = store.dispatch;
@@ -43,18 +47,22 @@ const dispatch = store.dispatch;
 // The function to get the state.
 const getState = store.getState;
 
+// A helper to get the config.
+const getConfig = () => store.getState().config;
+
 // Simple Action creators
 const creators = require('./src/actions.js').creators;
 
 ///////////////////////////////////////////////////////////////////////////////
-//                                    Code                                   //
+//                                    Load                                   //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Code the Config
+dispatch(creators.updateConfig());
 
-// Load the Config
-store.dispatch(creators.updateConfig());
-
-//const Commander = require('./src/commander.js')(getState);
+const Commander = new commander(getState, getConfig, dispatch);
 
 // The server Communication
-const Communicator = new communicator(getState);
+const Communicator = new communicator(getState, dispatch);
+
+dispatch(Commander.start());

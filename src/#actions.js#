@@ -6,11 +6,6 @@
 const Promise = require('promise');
 const writeConfig = require('./utility/config.js').write;
 const readConfig =  require('./utility/config.js').read;
-
-///////////////////////////////////////////////////////////////////////////////
-//                                Declarations                               //
-///////////////////////////////////////////////////////////////////////////////
-
 /**
  * Actions
  * The action definitions.
@@ -26,8 +21,8 @@ let actions = {
     TRY_RECONNECT: 'TRY_RECONNECT',
     STOP_ERROR_HANDLING: 'STOP_ERROR_HANDLING',
     SET_NAME: 'SET_NAME',
-    SET_CONNECTED: 'SET_CONNECTED',
-    SET_DISCONNECTED: 'SET_DISCONNECTED',
+    SET_ONLINE: 'SET_ONLINE',
+    SET_OFFLINE: 'SET_OFFLINE',
 
     // Master Server Related
     HYDRATE: 'HYDRATE'
@@ -37,10 +32,6 @@ let actions = {
  * Trivial Action Creators
  */
 let creators = {};
-
-///////////////////////////////////////////////////////////////////////////////
-//                                    Code                                   //
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Updates or initializes the configuration state. Updating and initializing are sync actions. The disk write happens asynchronously. Also sets the name if it is mentioned in the update.
@@ -126,7 +117,7 @@ creators.setName = function(name) {
 	type: actions.SET_NAME,
 	data: name
     };
-};
+x};
 
 creators.stopErrorHandling = function() {
     return {
@@ -134,15 +125,15 @@ creators.stopErrorHandling = function() {
     };
 };
 
-creators.setConnected = function() {
+creators.setOnline = function() {
     return {
-	type: actions.SET_CONNECTED
+	type: actions.SET_ONLINE
     };
 };
 
-creators.setDisconnected = function() {
+creators.setOffline = function() {
     return {
-	type: actions.SET_DISCONNECTED
+	type: actions.SET_OFFLINE
     };
 };
 

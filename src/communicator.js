@@ -6,9 +6,14 @@
  * @description Abstracts the communication with the master server.
  */
 
+// TODO: Filter the state props...
+
 const socketio = require('socket.io-client');
 const logger = require('./logger.js');
 /*const { HYDRATE } = require('./actions').actions[C]*/
+
+const { setConnected,
+	setDisconnected } = require('./actions').creators;
 
 const { UPDATE_CONFIG,
 	REQUEST_START,
@@ -17,9 +22,11 @@ const { UPDATE_CONFIG,
 	SET_STOPPED,
 	REQUEST_RESTART,
 	SET_ERROR,
-	TRY_RECONECT,
+	TRY_RECONNECT,
 	SET_NAME,
-	HYDRATE}= require('./actions').actions;;
+	HYDRATE,
+	SET_CONNECTED,
+	SET_DISCONNECTED }= require('./actions').actions;;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
@@ -36,18 +43,25 @@ let socket;
 // Get the current application state.
 let getState;
 
+// Dispatch function to alter the state.
+let dispatch;
+
 ///////////////////////////////////////////////////////////////////////////////
 //                                    Code                                   //
 ///////////////////////////////////////////////////////////////////////////////
 
 class Communicator {
-    constructor(_getState) {
+    constructor(_getState, _dispatch) {
         // singleton
         if (self)
             return self;
 
         if (!_getState) {
             throw new Error('Invalid getState() function.');
+        }
+
+	if (!_dispatch) {
+            throw new Error('Invalid dispatch() function.');
         }
 
 	if(!_getState().config)
@@ -57,7 +71,8 @@ class Communicator {
 
         // define the locals
         getState = _getState;
-
+	dispatch = _dispatch;
+	
         initSocket();
         return this;
     }
@@ -89,26 +104,36 @@ Communicator.prototype.sendAction = function(action){
     switch (action.type) {
     case SET_STARTED:
     case SET_STOPPED:
-	type = 'startStop',
+	type = 'startStop';
 	change = {
-	    running: state.stream.runnning ? 1 : 0,
+	    running: state.stream.running == 'RUNNING' ? 0 : 1, // TODO: CD
 	    error: state.stream.error || -1
 	};
 	break;
 
-    case SET_ERROR:
+   case SET_ERROR:
 	type = 'error';
 	change = {
 	    running: 2,
 	    error: state.stream.error
 	};
 	break;
+	
     case UPDATE_CONFIG:
 	type = 'settings';
 	change = {
 	    config: state.config
 	};
 	break;
+
+    case HYDRATE:
+	socket.emit('meta', {
+	    running: state.stream.running == 'RUNNING' ? 0 : 1,
+	    error: state.stream.error || -1,
+	    name: state.name
+	});
+	return;
+
     default:
 	return;
     }
@@ -187,7 +212,7 @@ function initSocket() {
  * Handle an established connection.
  */
 function socketConnected() {
-    logger.log(logger.importance[4], 'Connected to the master server.');
+    dispatch(setConnected());
 
     // Handle SSH Connection //TODO Implement - Action to set SSH. Auto Retry //TODO central DEFINITION 
     //ssh.connect();
@@ -203,6 +228,8 @@ function socketConnected() {
  */
 function socketDisconnected() {
     socket.disconnect();
+
+    dispatch(setDisconnected);
     
     // And just reconnect.
     logger.log(logger.importance[2], 'Lost connection to the master server.');
@@ -221,10 +248,9 @@ function handleCommand() {
  */
 
 Communicator.middleware = store => next => action => {
-    let result =  next(action);
+    let result = next(action);
 
     if(self && self.connected){
-	console.log("self");
 	self.sendAction(action); //TODO: Filter
     }
 
