@@ -13,13 +13,13 @@ module.exports = {};
 // TODO Default CFG
 /**
  * Read the JSON config file.
- * @returns { Object | bool } Returns the parsed config or false in case of an error.
+ * @returns { Object | bool } Returns the parsed config or false in case of anb error.
  */
 module.exports.read = function() {
     try {
 	return JSON.parse(fs.readFileSync(__dirname + '/../../config.js'));  //TODO: Nicer
     } catch (e) {
-	return false; // Log that.
+	return false; //TODO: Log that.
     }
 };
 

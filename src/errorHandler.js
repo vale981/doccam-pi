@@ -42,7 +42,7 @@ module.exports.handlers = handlers;
  * Stops the error handler.
  * @returns {function} An action-creating thunk. (That returns a promise.)
  */
-handlers.stopHandling = function() {
+module.exports.stopHandling = function() {
     return (dispatch, getState) => {
         let stopper,
             handler = handlers[getState().stream.handleError];

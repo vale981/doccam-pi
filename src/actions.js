@@ -26,9 +26,20 @@ let actions = {
     TRY_RECONNECT: 'TRY_RECONNECT',
     STOP_ERROR_HANDLING: 'STOP_ERROR_HANDLING',
     SET_NAME: 'SET_NAME',
+
+    // Communicator
     SET_CONNECTED: 'SET_CONNECTED',
     SET_DISCONNECTED: 'SET_DISCONNECTED',
 
+    // SSH
+    SET_SSH_DISCONNECTED: 'SET_SSH_DISCONNECTED',
+    SET_SSH_DISCONNECTING: 'SET_SSH_DISCONNECTING',
+    SET_SSH_CONNECTING: 'SET_SSH_CONNECTING',
+    SET_SSH_CONNECTED: 'SET_SSH_CONNECTED',
+    SET_SSH_REMOTE_PORTS: 'SET_SSH_REMOTE_PORTS',
+    SET_SSH_ERROR: 'SET_SSH_ERROR',
+    SET_SSH_WILL_RECONNECT: 'SET_SSH_WILL_RECONNECT',
+    
     // Master Server Related
     HYDRATE: 'HYDRATE'
 };
@@ -143,6 +154,50 @@ creators.setConnected = function() {
 creators.setDisconnected = function() {
     return {
 	type: actions.SET_DISCONNECTED
+    };
+};
+
+creators.setSSHRemotePorts = function(ports) {
+    return {
+	type: actions.SET_SSH_REMOTE_PORTS,
+	data: ports
+    };
+};
+
+creators.setSSHConnecting = function() {
+    return {
+	type: actions.SET_SSH_CONNECTING
+    };
+};
+
+creators.setSSHConnected = function() {
+    return {
+	type: actions.SET_SSH_CONNECTED
+    };
+};
+
+creators.setSSHDisconnecting = function(error) {
+    return {
+	type: actions.SET_SSH_DISCONNECTING
+    };
+};
+
+creators.setSSHDisconnected = function() {
+    return {
+	type: actions.SET_SSH_DISCONNECTED
+    };
+};
+
+creators.setSSHError = function(error) {
+    return {
+	type: actions.SET_SSH_ERROR,
+	data: error
+    };
+};
+
+creators.setSSHWillReconnect = function(error) {
+    return {
+	type: actions.SET_SSH_WILL_RECONNECT
     };
 };
 

@@ -26,9 +26,6 @@ let cmd = ffmpeg({
 // The Config, Logger and a handle for the kill timeout.
 let _stopHandle = false;
 
-// The promise helpers.
-let _resolve, _reject;
-
 // Error Texts //TODO put them into separate module
 let errorDescriptions = ['Camera Disconnected',
     'YoutTube Disconnected',
@@ -80,7 +77,7 @@ class Commander {
             throw new Error('Invalid getState() function.');
         }
 
-        if ((typeof _getConfig) !== 'function' || !_getConfig()) {
+	if ((typeof _getConfig) !== 'function' || !_getConfig()) {
             throw new Error('Please load a valid config().');
         }
 
@@ -98,8 +95,6 @@ class Commander {
         this.createCommand();
 
         // Register events.
-        cmd.on('start', started);
-        cmd.on('end', stopped);
         cmd.on('error', crashed);
 
         return this;
@@ -137,18 +132,14 @@ Commander.prototype.start = function() {
             dispatch(requestStart());
 
             new Promise((resolve, reject) => {
-                _resolve = resolve;
-                _reject = reject;
-
+                cmd.once('start', resolve);
+                cmd.prependOnceListener('error', reject);
                 cmd.run();
             }).then(() => {
                 dispatch(setStarted());
                 resolve("Successfully Started."); // TODO: CD
             }).catch((error) => {
                 reject("An error has occured. Could not start!", error); // TODO: Central Definition!
-            }).then(() => {
-                _resolve = false;
-                _reject = false;
             });
         });
     };
@@ -163,8 +154,8 @@ Commander.prototype.restart = function() {
         dispatch(requestRestart());
 
         // Stop Error Handling
-        dispatch(errorHandling.stopHandling()).then(() => {
-            return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            dispatch(errorHandling.stopHandling()).then(() => {
                 dispatch(self.stop()).then(() => {
                     dispatch(self.start()).then(() => {
                         resolve("Successfully restarted.");
@@ -191,8 +182,8 @@ Commander.prototype.stop = function() {
             dispatch(requestStop());
 
             new Promise((resolve, reject) => {
-                _resolve = resolve;
-                _reject = reject;
+                cmd.once('stop', resolve);
+                cmd.prependOnceListener('error', resolve);
 
                 // Try it civilized for now.
                 cmd.kill('SIGINT');
@@ -203,9 +194,10 @@ Commander.prototype.stop = function() {
                     cmd.kill();
                 }, 3000);
             }).then(() => {
-                resolve("Successfully Started!"); // TODO: CD
-                _resolve = false;
-                _reject = false;
+                clearTimeout(_stopHandle);
+
+                dispatch(setStopped());
+                resolve("Successfully Stopped!"); // TODO: CD
             });
         });
     };
@@ -255,21 +247,7 @@ Commander.prototype.createCommand = function() {
  * Utilities 
  */
 
-// Handle Stop and Restart
-function stopped() {
-    if (getState().stream.running == 'STOPPING' && _resolve) {
-        _resolve();
-    }
-}
-
 // TODO: Restart = false in stopped?
-// Hande Stat
-function started() {
-    if (getState().stream.running == 'STARTING' && _resolve) {
-        _resolve();
-    }
-}
-
 /**
  * Error Handling
  */
@@ -282,23 +260,19 @@ function started() {
  */
 function crashed(error, stdout, stderr) {
     let errorCode, handler;
-    
-    if (getState().stream.running == 'STARTING' && _reject) {
-        _reject(error.message);
-    }
 
     // Can't connect to the Camera
     if (error.message.indexOf(source) > -1) {
- 	errorCode = 0;
+        errorCode = 0;
         handler = errorHandling.handlers.tryReconnect(config().camIP, config().camPort,
-						      () => dispatch(self.start()));
+            () => dispatch(self.start()));
     }
 
     // Can't connect to the Internet / YouTube
     else if (error.message.indexOf(source + 'Input/output error') > -1 || error.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config().key) > -1) {
-	errorCode = 1;
+        errorCode = 1;
         handler = errorHandling.handlers.tryReconnect('a.rtmp.youtube.com/live2/', 1935,
-						      () => dispatch(self.start()));
+            () => dispatch(self.start()));
     }
 
     // Wrong FFMPEG Executable
@@ -307,13 +281,12 @@ function crashed(error, stdout, stderr) {
 
     // Stopped by us - SIGINT Shouldn't lead to a crash.
     else if (error.message.indexOf('SIGINT') > -1 || error.message.indexOf('SIGKILL') > -1) {
-        stopped();
         return;
     }
 
     // Some unknown Problem, just try to restart.
     else {
-	errorCode = 3;
+        errorCode = 3;
 
         // Just restart in a Second.
         setTimeout(function() {
@@ -324,6 +297,6 @@ function crashed(error, stdout, stderr) {
     dispatch(setError(errorCode, stdout, stderr)); // NOTE: Maybe no STDOUT
 
     // Handle the error if possible.
-    if(handler)
-	dispatch(handler);
+    if (handler)
+        dispatch(handler);
 }

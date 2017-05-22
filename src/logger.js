@@ -2,7 +2,8 @@
 //          Winston Logger Wrapper with Custom Colors and Transports         //
 ///////////////////////////////////////////////////////////////////////////////
 
-let winston = require('winston');
+const winston = require('winston');
+const fs = require('fs');
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
@@ -11,7 +12,7 @@ let winston = require('winston');
 // Custom log levels.
 const customLevels = {
     levels: {
-	action: 5,
+        action: 5,
         normal: 4,
         info: 3,
         success: 2,
@@ -19,7 +20,7 @@ const customLevels = {
         danger: 0
     },
     colors: {
-	action: 'grey',
+        action: 'grey',
         normal: 'white',
         info: 'blue',
         warning: 'yellow',
@@ -41,7 +42,15 @@ const {
     SET_ERROR,
     TRY_RECONNECT,
     SET_CONNECTED,
-    SET_DISCONNECTED
+    SET_DISCONNECTED,
+
+    // SSH
+    SET_SSH_REMOTE_PORTS,
+    SET_SSH_CONNECTING,
+    SET_SSH_CONNECTED,
+    SET_SSH_DISCONNECTED,
+    SET_SSH_WILL_RECONNECT,
+    SET_SSH_ERROR
 } = require('./actions').actions;
 
 /**
@@ -50,16 +59,27 @@ const {
  */
 const actionMessageMap = {
     UPDATE_CONFIG: ['info', 'Config Updated'],
-    REQUEST_START: ['info', 'Starting'],
-    SET_STARTED: ['success', 'Started'],
-    REQUEST_STOP: ['info', 'Sopping'],
-    SET_STOPPED: ['success', 'Stopped'],
-    REQUEST_RESTART: ['info', 'Restarting'],
+    REQUEST_START: ['info', 'Starting Stream'],
+    SET_STARTED: ['success', 'Started Stream'],
+    REQUEST_STOP: ['info', 'Sopping Stream'],
+    SET_STOPPED: ['success', 'Stopped Stream'],
+    REQUEST_RESTART: ['info', 'Restarting Streamx'],
     SET_ERROR: action => ['danger', `An error has occured: ${errors[action.data]}\n${action.stderr ? 'STDERR: ' + action.stderr + '\n' : ''}${action.stdout ? 'STDOUT: ' + action.stdout + '\n' : ''}`],
     TRY_RECONNECT: action => ['warning', `Trying to reconnect to: ${action.to[0]} on port ${action.to[1]}.`],
     SET_CONNECTED: ['success', 'Connected to the Master-Server.'],
-    SET_DISCONNECTED: ['warning', 'Disconnected from the Master-Server.']
+    SET_DISCONNECTED: ['warning', 'Disconnected from the Master-Server.'],
+    SET_SSH_REMOTE_PORTS: action => ['info', `Setting SSH ports to ${action.data}`],
+    SET_SSH_CONNECTING: ['info', 'Attempting to create the SSH tunnels.'],
+    SET_SSH_CONNECTED: ['success', 'SSH tunnels are up and running.'],
+    SET_SSH_DISCONNECTED: ['warning', 'SSH is disconnected'],
+    SET_SSH_WILL_RECONNECT: ['warning', 'Although the times are hard, we will try to reconnect the SSH tunels once the connection to the SSH-Manager is regained!'],
+    SET_SSH_ERROR: action => ['danger', `An (SSH) error has occured: ${action.data}`]
 };
+
+/**
+ * Logfile Path
+ */
+const logdir = __dirname + '/../logs/';
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                    Code                                   //
@@ -68,6 +88,12 @@ const actionMessageMap = {
 /**
  * Calls the logging function with arguments, if the node enviroment isn't in production mode.
  */
+
+// Create logs dir // TODO: Configurable
+if (!fs.existsSync(logdir)) {
+    fs.mkdirSync(logdir);
+}
+
 
 // Set the Colors
 winston.addColors(customLevels.colors);
@@ -83,11 +109,11 @@ let logger = new(winston.Logger)({
             timestamp: true
         }),
         new(winston.transports.File)({
-            filename: __dirname + '/process.log',
+            filename: logdir + 'process.log',
             prettyPrint: true,
             colorize: true,
             timestamp: true,
-            level: 'danger',
+            level: 'normal',
             json: true,
             maxsize: 500000,
             maxFiles: 10
@@ -103,7 +129,7 @@ logger.importance = ['normal', 'info', 'warning', 'danger', 'success'];
  */
 logger.middleware = store => next => action => {
     logger.log('action', action);
-    
+
     if (!actionMessageMap[action.type])
         return next(action);
 

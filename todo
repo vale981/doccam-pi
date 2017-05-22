@@ -1,1 +1,10 @@
 - restart enable.
+- update config commands (middleware)
+- shared config
+- update docs with GatewayPorts clientspecified
+- host identity
+- config update
+- Patch submissionc
+Host localhost
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null

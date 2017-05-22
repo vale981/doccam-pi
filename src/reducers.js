@@ -16,7 +16,16 @@ const {
     STOP_ERROR_HANDLING,
     SET_NAME,
     SET_CONNECTED,
-    SET_DISCONNECTED
+    SET_DISCONNECTED,
+
+    // SSH
+    SET_SSH_REMOTE_PORTS,
+    SET_SSH_CONNECTING,
+    SET_SSH_CONNECTED,
+    SET_SSH_DISCONNECTING,
+    SET_SSH_DISCONNECTED,
+    SET_SSH_WILL_RECONNECT,
+    SET_SSH_ERROR
 } = require('./actions').actions;
 
 let reducers = {};
@@ -131,6 +140,49 @@ reducers.connected = function(state = false, action) {
         case SET_DISCONNECTED:
             return false;
         default:
+            return state;
+    };
+};
+
+reducers.ssh = function(state = {enabled: false}, action){
+    switch (action.type) {
+    case SET_SSH_REMOTE_PORTS:
+	return Object.assign({}, state, {
+	    camForwardPort: action.camForwardPort,
+	    sshForwardport: action.sshForwardPort
+	});
+    case SET_SSH_CONNECTING:
+	return Object.assign({}, state, {
+	    status: 'CONNECTING',
+	    error: false,
+	    willReconnect: false
+	});
+    case SET_SSH_CONNECTED:
+	return Object.assign({}, state, {
+	    status: 'CONNECTED',
+            willReconnect: false
+	});
+    case SET_SSH_DISCONNECTED:
+	return Object.assign({}, state, {
+	    status: 'DISCONNECTED',
+            willReconnect: false
+	});
+    case SET_SSH_DISCONNECTING:
+	return Object.assign({}, state, {
+	    status: 'DISCONNECTING',
+            willReconnect: false
+	});
+    case SET_SSH_ERROR:
+	return Object.assignx({}, state, {
+	    status: 'DISCONNECTED',
+	    error: action.data // TODO: Checks
+	});
+    case SET_SSH_WILL_RECONNECT:
+	return Object.assign({}, state, {
+	    status: 'DISCONNECTED',
+	    willReconnect: true
+	});
+    default:
             return state;
     };
 };
