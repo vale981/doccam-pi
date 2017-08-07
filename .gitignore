@@ -1,5 +1,9 @@
+logs
+out
 config.js
 node_modules
 process.log
 process.log.*
 ssh.pid
+#*#
+*~
