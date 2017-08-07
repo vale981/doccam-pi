@@ -17,6 +17,10 @@ const {
     setSSHRemotePorts
 } = require('./actions').creators;
 
+const {
+    UPDATE_CONFIG
+} = require('./actions').actions;
+
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +62,7 @@ let getPorts;
  * @param {} _getConfig
  * @param {} _dispatch
  * @param {} _getPorts @see `let getPorts`
- * @throws {} 
+ * @throws {}
  */
 class SSHMan {
     constructor(_getState, _getConfig, _dispatch, _getPorts) {
@@ -88,8 +92,8 @@ class SSHMan {
         getPorts = _getPorts;
         dispatch = _dispatch;
 
-	self = this;
-	
+        self = this;
+
         connectIpc();
     }
 };
@@ -107,8 +111,8 @@ SSHMan.prototype.connect = function() {
         if (!getConfig().ssh)
             return Promise.reject("SSH is disabled."); // TODO: CD
 
-	if (getState().ssh.status == 'CONNECTED')
-	    return Promise.resolve();
+        if (getState().ssh.status == 'CONNECTED')
+            return Promise.resolve();
 
         if (getState().ssh.status == 'CONNECTING')
             return Promise.reject('A command which is currently being executed is in conflict with the current one.');
@@ -117,12 +121,13 @@ SSHMan.prototype.connect = function() {
         dispatch(setSSHConnecting());
 
         let config = getState().config;
-        let newPorts = {}, ports = {};
+        let newPorts = {},
+            ports = {};
         return isIpcConnected()
-	    .then(() => getPorts())
-	    .then((_ports) => {
-            if (typeof _ports.sshForwardPort !== 'number' || typeof _ports.camForwardPort !== 'number') {
-		    return Promise.reject("Invalid Ports!");
+            .then(() => getPorts())
+            .then((_ports) => {
+                if (typeof _ports.sshForwardPort !== 'number' || typeof _ports.camForwardPort !== 'number') {
+                    return Promise.reject("Invalid Ports!");
                 } else {
                     ports = _ports;
                     return isIpcConnected();
@@ -133,9 +138,10 @@ SSHMan.prototype.connect = function() {
             .then(() => createTunnel(config.camPort, ports.camForwardPort))
             .then(port => newPorts.camForwardPort = port)
             .then(() => isIpcConnected)
-	    .then(() => {
+            .then(() => {
                 dispatch(setSSHRemotePorts(newPorts));
                 dispatch(setSSHConnected());
+                return Promise.resolve('SSH Tunnels successfully connected.'); // TODO: CD
             })
             .catch(error => {
                 dispatch(setSSHError(error));
@@ -160,35 +166,32 @@ SSHMan.prototype.disconnect = function() {
         // Let's go ahead.
         dispatch(setSSHDisconnecting());
 
-	let config = getState().config();
-        return isIpcConnected
-	    .then(() => closeTunnel(config.sshPort))
-	    .then(() => closeTunnel(config.camPort))
-	    .then(() => {
-		dispatch(setSSHDisconnected());
-		return Promise.resolve();
-	    })
-	    .catch((error) => {
-		// This means that the tunnel is not connected anymore.
-		dispatch(setSSHDisconnected());
+        let config = getState().config;
+        return isIpcConnected()
+            .then(() => closeTunnel(config.sshPort))
+            .then(() => closeTunnel(config.camPort))
+            .then(() => {
+                dispatch(setSSHDisconnected());
+                return Promise.resolve();
+            })
+            .catch((error) => {
+                // This means that the tunnel is not connected anymore.
+                dispatch(setSSHDisconnected());
                 return Promise.reject(error);
             });
     };
 };
 
-// TODO: Maybe both tunnels handled completely different.
+// TODO: Maybe both tunnels handled completely independent.
 /**
  * An action creator that restarts the SSH Tunnels.
- * @returns { Promise } 
+ * @returns { Promise }
  */
 SSHMan.prototype.restartTunnels = function() {
     return (dispatch, getState) => {
-	let connect = () => dispatch(self.connect);
-	
-        dispatch(self.disconnect())
-	    .then(connect, connect)
-	    .then(() => Promise.resolve("SSH Tunnels successfully restarted."))
-	    .catch(error => Promise.reject(error)); //Todo CD
+        // TODO: CD
+        return dispatch(self.disconnect())
+            .then(() => dispatch(self.connect()));
     };
 };
 
@@ -213,7 +216,9 @@ function connectIpc(ports) {
 function ipcConnected() {
     connected = true;
     if (getState().ssh.willReconnect) {
-        dispatch(self.connect());
+        dispatch(self.connect()).catch(() => {
+            // We do nothing...
+        });
     }
 }
 
@@ -221,12 +226,11 @@ function ipcConnected() {
  * Handler for the IPC Disconnect Event.
  */
 function ipcDisconnected() {
-    if(!connected)
-	return;
-    
+    if (!connected)
+        return;
+
     connected = false;
 
-    console.log("here");
     // Automatically attempt to reconnect once connection is made.
     dispatch(setSSHWillReconnect());
     dispatch(setSSHError("Connection to SSH-Manager lost!")); // TODO: CD
@@ -238,7 +242,7 @@ function ipcDisconnected() {
  * Creates a tunnel by reqesting it from the manager.
  * @param { number } localPort
  * @param { number } remotePort
- * @returns { Promise } 
+ * @returns { function } Action / Promise
  */
 function createTunnel(localPort, remotePort) {
     return new Promise((resolve, reject) => {
@@ -247,7 +251,7 @@ function createTunnel(localPort, remotePort) {
 
         let connectTimeout = setTimeout(() => reject("IPC Timeout. Can't reach SSH-Manager."), 2000); // TODO: CD
 
-	// TODO: Variable CD
+        // TODO: Variable CD
         ipc.of.sshMan.once('success' + id, (port) => {
             resolve(port); // TODO: That's ok for now, but should be auto-determined by the SSH-Manager further down the road...
         });
@@ -262,19 +266,26 @@ function createTunnel(localPort, remotePort) {
             reject(error);
         });
 
-	ipc.of.sshMan.emit('create_tunnel', {
+        ipc.of.sshMan.emit('create_tunnel', {
             id: id,
             host: config.sshMaster,
             username: config.sshUser,
             sshPort: config.sshPort,
             localPort: localPort,
             remotePort: remotePort,
+            sshKey: config.sshKey,
             serverAliveInterval: 30,
             reverse: true
         });
     });
 }
 
+
+/**
+ * Closes the SSH-Tunnel on the port.
+ * @param {number} port
+ * @returns {fuction} Action / Promise
+ */
 function closeTunnel(port) {
     return new Promise((resolve, reject) => {
         let id = (new Date()).getTime();
@@ -297,14 +308,14 @@ function closeTunnel(port) {
 
         ipc.of.sshMan.emit('close_tunnel', {
             id: id,
-	    port
+            port
         });
     });
 }
 
 /**
  * Helper to tell if the IPC connection works.
- * @returns {Promise} 
+ * @returns {Promise}
  */
 function isIpcConnected() {
     if (connected)
@@ -312,12 +323,35 @@ function isIpcConnected() {
 
     // Wait a bit and try again.
     return new Promise((resolve, reject) => {
-	ipc.of.sshMan.on('connect', () => resolve());
-	ipc.of.sshMan.once('error', () => {
-	    console.log("here");
-	    dispatch(setSSHWillReconnect());
-	    reject('Cannot connect to the SSH-Manager.');
-	});
+        ipc.of.sshMan.on('connect', () => resolve());
+        ipc.of.sshMan.once('error', () => {
+            dispatch(setSSHWillReconnect());
+            reject('Cannot connect to the SSH-Manager.');
+        });
     });
 }
 
+
+/**
+ * Redux Middleware
+ * Try to reconnect upon config change.
+ */
+SSHMan.middleware = store => next => action => {
+    let result = next(action); // Let it pass...
+
+    if (!self)
+        return true;
+
+    // If sth. has changed, we restart.
+    if (action.type === UPDATE_CONFIG) {
+        if (action.data.ssh ||
+            action.data.sshPort ||
+            action.data.sshMaster ||
+            action.data.sshLocalUser ||
+            action.data.camIP ||
+            action.data.camPanelPort) {
+            dispatch(self.restartTunnels());
+        }
+    }
+    return result;
+}

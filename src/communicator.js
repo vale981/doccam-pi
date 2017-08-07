@@ -11,13 +11,17 @@
 const socketio = require('socket.io-client');
 const logger = require('./logger.js');
 const sshMan = require('./ssh.js');
+
 /*const { HYDRATE } = require('./actions').actions[C]*/
 
+// Action Creators
 const {
     setConnected,
-    setDisconnected
+    setDisconnected,
+    updateConfig
 } = require('./actions').creators;
 
+// Actions
 const {
     UPDATE_CONFIG,
     REQUEST_START,
@@ -27,15 +31,27 @@ const {
     REQUEST_RESTART,
     SET_ERROR,
     TRY_RECONNECT,
-    SET_NAME,
     HYDRATE,
     SET_CONNECTED,
-    SET_DISCONNECTED
-} = require('./actions').actions;;
+    SET_DISCONNECTED,
+    SET_SSH_CONNECTED
+} = require('./actions').actions;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
 ///////////////////////////////////////////////////////////////////////////////
+
+// TODO: CD
+// TODO: Update // OLD
+// Commands
+const commands = {
+    START_STOP: 'startStop',
+    SNAPSHOT: 'snap',
+    UPDATE_CONFIG: 'changeSettings',
+    RESTART: 'restart',
+    RESTART_SSH: 'restartSSH',
+    GET_LOGS: 'getLogs'
+};
 
 // Object oriented `this`.
 let self = false;
@@ -54,15 +70,18 @@ let getConfig;
 // Dispatch function to alter the state.
 let dispatch;
 
-// SSH Management Abstraction
+// SSH Management Abstraction.
 let SSHMan;
+
+// The FFMPEG commander.
+let commander;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                    Code                                   //
 ///////////////////////////////////////////////////////////////////////////////
 
 class Communicator {
-    constructor(_getState, _getConfig, _dispatch) {
+    constructor(_getState, _getConfig, _dispatch, _commander) {
         // singleton
         if (self)
             return self;
@@ -71,21 +90,25 @@ class Communicator {
             throw new Error('Invalid getState() function.');
         }
 
+        if ((typeof _getConfig) !== 'function' || typeof _getConfig() !== 'object')
+            throw new Error('Invalid getConfig funtion!'); // TODO: Lookup if implemented everywhere
+
         if (!_dispatch) {
             throw new Error('Invalid dispatch() function.');
         }
 
-	if ((typeof _getConfig) !== 'function' || !_getConfig()) 
-            throw new Error('Invalid getConfig funtion!'); // TODO: Lookup if implemented everywhere
+        if (typeof _commander !== 'object')
+            throw new Error('Invalid Commander Instance!');
 
         self = this;
 
         // define the locals
         getState = _getState;
         dispatch = _dispatch;
-	getConfig = _getConfig;
+        getConfig = _getConfig;
+        commander = _commander;
 
-	SSHMan = new sshMan(getState, getConfig, dispatch, this.getPorts);
+        SSHMan = new sshMan(getState, getConfig, dispatch, this.getPorts);
         initSocket();
         return this;
     }
@@ -109,53 +132,73 @@ Communicator.prototype.sendAction = function(action) {
 
     // TODO: Filter
     /*
-    socket.emit('action', action);
-    [C]*/
+      socket.emit('action', action);
+      [C]*/
 
     let type, change, state = getState();
-    
+
+    // All Legacy Stuff
     switch (action.type) {
-        case SET_STARTED:
-        case SET_STOPPED:
-            type = 'startStop';
-            change = {
-                running: state.stream.running == 'RUNNING' ? 0 : 1, // TODO: CD
-                error: state.stream.error || -1
-            };
-            break;
+    case SET_STARTED:
+    case SET_STOPPED:
+        type = 'startStop';
+        change = {
+            running: state.stream.running == 'RUNNING' ? 0 : 1, // TODO: CD
+            error: state.stream.error || -1
+        };
+        break;
 
-        case SET_ERROR:
-            type = 'error';
-            change = {
-                running: 2,
-                error: state.stream.error
-            };
-            break;
+    case SET_ERROR:
+        type = 'error';
+        change = {
+            running: 2,
+            error: state.stream.error
+        };
+        break;
 
-        case UPDATE_CONFIG:
-            type = 'settings';
-            change = {
-                config: state.config
-            };
-            break;
+    case UPDATE_CONFIG:
+        type = 'settings';
 
-        case HYDRATE:
-            socket.emit('meta', {
-                running: state.stream.running == 'RUNNING' ? 0 : 1,
-                error: state.stream.error || -1,
-                name: state.name,
-                config: state.config
-            });
-            return;
+        change = {
+            config: Object.assign({}, state.config, {name: action.data.name}) //TODO: LEGACY
+        };
+        break;
 
-        default:
-            return;
+    case SET_SSH_CONNECTED:
+        change = {
+            port: state.ssh.sshForwardPort,
+            camForwardPort: state.ssh.camForwardPort
+        };
+        break;
+
+    case HYDRATE:
+        socket.emit('meta', {
+            running: state.stream.running == 'RUNNING' ? 0 : 1,
+            error: state.stream.error || -1,
+            name: state.name,
+            config: state.config,
+            haveSettings: true // LEGACY
+        });
+        return;
+
+    default:
+        return;
     }
 
     socket.emit('change', {
         type,
         change
     });
+};
+
+/**
+ * Send some data up the wire.
+ * @param {Object} data
+ * @param {String} type The type of the data. (Check server code.)
+ * @param {String} to Socket ID of the receipient.
+ */
+Communicator.prototype.sendData = function(type, data, to){
+    socket.emit('data', {data, type}, to);
 };
 
 /**
@@ -170,19 +213,27 @@ Communicator.prototype.sendMessage = function(title, type, text, to) {
         return;
 
     /*socket.emit('message', {
-	title,
-	type,
-	text
-	}, to);[C]*/
+      title,
+      type,
+      text
+      }, to);[C]*/
 
-    socket.emit('data', {
-        type: 'message',
-        data: {
-            title: 'Error',
-            type: 'error',
-            text: 'Could not start SSH tunnels!'
-        }
+    self.sendData('message', {
+        title: title,
+        type: type,
+        text: text
     }, to);
+};
+
+
+/**
+ * Send a message of `type` `to` a socket.
+ * @param {String} to Recepient (socket id).
+ * @param {String} type Type of the message.
+ * @returns {function} A function with the paremers `to` and `type` frozen. @see sendMessage
+ */
+Communicator.prototype.sendMessageTo = function(type, to) {
+    return (title, text) => self.sendMessage(title, type, text, to);
 };
 
 /**
@@ -195,14 +246,14 @@ Communicator.prototype.sendSnapshot = function(snapshot, to) {
         return;
 
     socket.emit('data', {
-        type: 'snap', //TODO New with new software
+        type: 'snap', //TODO New with new software, more General way...
         data: snapshot
     }, to);
 };
 
 /**
  * Finds two open ports at the master server.
- * @returns {Promise} Resolves with the ports. 
+ * @returns {Promise} Resolves with the ports.
  */
 Communicator.prototype.getPorts = function() {
     return new Promise((resolve, reject) => {
@@ -256,12 +307,11 @@ function socketConnected() {
     dispatch(setConnected());
 
     dispatch(SSHMan.connect()).catch(() => {
-	// Todo Better Hanling
-	// For now we do nothing, as it will reconnect itself!
+        // TODO: Better Hanling
+        // For now we do nothing, as it will reconnect itself!
     });
 
-    // Handle SSH Connection //TODO Implement - Action to set SSH. Auto Retry //TODO central DEFINITION 
-    //ssh.connect();
+    // Handle SSH Connection //TODO Implement - Action to set SSH. Auto Retry // TODO: CD
 
     self.sendAction({
         type: HYDRATE,
@@ -275,18 +325,45 @@ function socketConnected() {
 function socketDisconnected() {
     socket.disconnect();
 
-    dispatch(setDisconnected);
+    dispatch(setDisconnected());
 
-    // And just reconnect.
-    logger.log(logger.importance[2], 'Lost connection to the master server.');
     initSocket();
 }
 
 /**
- * Handle Commands //TODO Implement
+ * Handle Commands
  */
-function handleCommand() {
+function handleCommand(command, callback) {
+    // Well, this can be done nicer, lots of code dupes. // TODO: NICER, URGENT
+    // TODO: The same in callbacks...
 
+    let answerSuccess = self.sendMessageTo('success', command.sender),
+        answerError = self.sendMessageTo('error', command.sender);
+
+    switch (command.command) {
+    case commands.START_STOP: // OLD // TODO: renew
+        if (getState().stream.running === 'RUNNING')
+            dispatch(commander.stop()).then(msg => answerSuccess(msg)).catch(error => answerError(error));
+        else
+            dispatch(commander.start()).then(msg => answerSuccess(msg)).catch(error => answerError(error));
+        break;
+    case commands.RESTART:
+        dispatch(commander.restart()).then(msg => answerSuccess(msg)).catch(error => answerError(error));
+        break;
+    case commands.UPDATE_CONFIG:
+        dispatch(updateConfig(command.data)).then(msg => answerSuccess(msg)).catch(err => answerError(err));
+        break;
+    case commands.RESTART_SSH:
+        dispatch(SSHMan.restartTunnels()).then(msg => answerSuccess(msg)).catch(err => answerError(err));
+        break;
+    case commands.SNAPSHOT:
+        dispatch(commander.takeSnapshot()).then(snap => self.sendSnapshot(snap))
+            .catch(error => self.sendMessage('Snapshot Failed', 'error', error, command.sender));
+        break;
+    case commands.GET_LOGS:
+        logger.getLogs().then(logs => self.sendData('logs', logs, command.sender)).catch(() => answerError('Can\'t get logs.')); //TODO: CD
+        break;
+    }
 }
 
 /**

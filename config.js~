@@ -7,14 +7,15 @@
     "key": "upjm-kz0g-c3wt-7zuj",
     "name": "Uncdonfigured",
     "master": "http://localhost:8080",
-    "ssh-master": "localhost",
+    "sshMaster": "localhost",
     "ffmpegPath": "ffmpeg",
     "ssh": false,
-    "ssh-user": "ssh",
-    "ssh-local-user": "alarm",
-    "ssh-port": 22,
+    "sshUser": "ssh",
+    "sshLocalUser": "alarm",
+    "sshPort": 22,
     "customOutputOptions": "",
     "customVideoOptions": "",
     "customAudioOptions": "-b:a 128k -ac 1 -ar 11025 -acodec libmp3lame",
-    "configured": true
+    "configured": true,
+    "ssh": true
 }

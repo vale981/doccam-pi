@@ -7,6 +7,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const http = require('http');
 const logger = require('./logger');
 const errorHandling = require('./errorHandler.js');
+const WMStrm = require('../lib/memWrite.js');
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
@@ -17,11 +18,22 @@ let self = false;
 
 /**
  * The FFMPEG command.
- * @member 
+ * @member
  */
 let cmd = ffmpeg({
     stdoutLines: 20
 });
+
+/**
+ * The command to take a snapshot.
+ * @member
+ */
+let snapCmd = ffmpeg({
+    stdoutLines: 20
+});
+
+// Memory Buffer to hold 'em all... (The Snapshot)
+let snapBuff;
 
 // The Config, Logger and a handle for the kill timeout.
 let _stopHandle = false;
@@ -45,6 +57,10 @@ let dispatch;
 // The function to get the config().
 let config;
 
+const {
+    UPDATE_CONFIG
+} = require('./actions').actions;
+
 // Action Creators
 const {
     requestStart,
@@ -52,7 +68,10 @@ const {
     requestRestart,
     setStarted,
     setStopped,
-    setError
+    setError,
+    takeSnapshot,
+    setSnapshotTaken,
+    setSnapshotFailed
 } = require('./actions').creators;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,7 +96,7 @@ class Commander {
             throw new Error('Invalid getState() function.');
         }
 
-	if ((typeof _getConfig) !== 'function' || !_getConfig()) {
+        if ((typeof _getConfig) !== 'function' || !_getConfig()) {
             throw new Error('Please load a valid config().');
         }
 
@@ -92,10 +111,11 @@ class Commander {
         dispatch = _dispatch;
 
         // Create the FFMPEG-Command initially.
-        this.createCommand();
+        this.createCommands();
 
         // Register events.
         cmd.on('error', crashed);
+        cmd.on('end', crashed); // Can posibly be an error.
 
         return this;
     }
@@ -195,7 +215,6 @@ Commander.prototype.stop = function() {
                 }, 3000);
             }).then(() => {
                 clearTimeout(_stopHandle);
-
                 dispatch(setStopped());
                 resolve("Successfully Stopped!"); // TODO: CD
             });
@@ -203,19 +222,61 @@ Commander.prototype.stop = function() {
     };
 };
 
+Commander.prototype.takeSnapshot = function() {
+    return (dispatch, getStatus) => {
+        if (getState().stream.snapshot.taking)
+            return Promise.reject('Another Snapshot is already being taken! Please wait.'); // TODO: CD
+
+        return new Promise((resolve, reject) => {
+            dispatch(takeSnapshot());
+            // TODO: Alternative Logging
+            // TODO: CD
+
+            // Init memstream.
+            try {
+                snapBuff = new WMStrm();
+            } catch (e) {
+                reject('An error occured while initializing the memeory stream.');
+                return;
+            }
+
+            // Reject on Error.
+            snapCmd.once('error', () => reject('An error occured while taking the snapshot'));
+
+            // Send data on Finish.
+            snapBuff.once('finnish', () => {
+                try {
+                    resolve(snapBuff.memStore.toString('base64'));
+                } catch (e) {
+                    reject('An error occured while reading the snapshot memory stream.');
+                }
+            });
+
+            snapBuff.run();
+        }).then(snap => {
+            {
+                dispatch(setSnapshotTaken());
+                return Promise.resolve(snap);
+            }
+        }, err => {
+            dispatch(setSnapshotFailed(err));
+            return Promise.reject(err);
+        });
+    };
+};
 
 /**
  * (Re)Create the ffmpeg command and configure it.
  * @param { Object } config The configuration for the stream.
  * @returns { Object } The fluent-ffmpeg command object. 
  */
-Commander.prototype.createCommand = function() {
+Commander.prototype.createCommands = function() {
     // Clear inputs
     cmd._inputs = [];
 
     // TODO: Multi Protocol
-    source = 'rtsp://' + config().camIP + ':' + config().camPort + '/' + config().camProfile;
-    cmd.input(source);
+    source = 'rtsp://' + config().camIP + ':' + config().camPort + '/';
+    cmd.input(source + config().camProfile);
 
     // Custom config if any.
     if (config().customOutputOptions !== "")
@@ -236,12 +297,19 @@ Commander.prototype.createCommand = function() {
         .outputOptions(['-bufsize 50000k', '-tune film'])
         .output('rtmp://a.rtmp.youtube.com/live2/' + config().key);
 
+    // Clear inputs.
+    snapCmd._inputs = [];
+
+    // Snap Profile.
+    /*snapCmd.input(source + config().snapProfile)
+        .outputFormat('mjpeg')
+        .frames(1)
+        .stream(snapBuff, {
+            end: true
+	 });*/
+
     return cmd;
 };
-
-/**
- * Private
- */
 
 /**
  * Utilities 
@@ -260,6 +328,10 @@ Commander.prototype.createCommand = function() {
  */
 function crashed(error, stdout, stderr) {
     let errorCode, handler;
+
+    // We stopped...
+    if (getState().stream.running === 'STOPPED')
+        return;
 
     // Can't connect to the Camera
     if (error.message.indexOf(source) > -1) {
@@ -300,3 +372,27 @@ function crashed(error, stdout, stderr) {
     if (handler)
         dispatch(handler);
 }
+
+
+/**
+ * Redux Middleware
+ */
+
+Commander.middleware = store => next => action => {
+    let result = next(action);
+
+    // If sth. has changed, we restart.
+    if (self && getState().stream.running === 'RUNNING'
+        && action.type === UPDATE_CONFIG) {
+        if (action.data.key ||
+            action.data.ffmpegPath ||
+            action.data.customOutputOptions ||
+            action.data.customVideoOptions ||
+            action.data.customAudioOptions ||
+            action.data.camIP ||
+            action.data.camPort) {
+            dispatch(self.restart()).catch(()=>{}); //TODO: error Handling
+        }
+    }
+    return result;
+};

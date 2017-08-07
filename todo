@@ -8,3 +8,7 @@
 Host localhost
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null
+
+
+- Config allways
+- ssh allways

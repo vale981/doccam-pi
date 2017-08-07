@@ -63,12 +63,15 @@ const actionMessageMap = {
     SET_STARTED: ['success', 'Started Stream'],
     REQUEST_STOP: ['info', 'Sopping Stream'],
     SET_STOPPED: ['success', 'Stopped Stream'],
-    REQUEST_RESTART: ['info', 'Restarting Streamx'],
-    SET_ERROR: action => ['danger', `An error has occured: ${errors[action.data]}\n${action.stderr ? 'STDERR: ' + action.stderr + '\n' : ''}${action.stdout ? 'STDOUT: ' + action.stdout + '\n' : ''}`],
+    REQUEST_RESTART: ['info', 'Restarting Stream'],
+    TAKE_SNAPSHOT: ['info', 'Taking Snapshot.'],
+    SET_SNAPSHOT_FAILED: action => ['danger', `Snapshot failed: ${action.data}`],
+    SET_SNAPSHOT_TAKEN: ['success', 'Snapshot Taken'],
+    SET_ERROR: action => ['danger', `An error has occured: ${errors[action.data]}\n${action.stderr ? 'STDERR: ' + action.stderr + '\n' : ''}${action.stdout ? 'STDOUT: ' + action.stdout + '\n' : ''}`], // TODO: FILTER STDERR... STDOUT...
     TRY_RECONNECT: action => ['warning', `Trying to reconnect to: ${action.to[0]} on port ${action.to[1]}.`],
     SET_CONNECTED: ['success', 'Connected to the Master-Server.'],
     SET_DISCONNECTED: ['warning', 'Disconnected from the Master-Server.'],
-    SET_SSH_REMOTE_PORTS: action => ['info', `Setting SSH ports to ${action.data}`],
+    SET_SSH_REMOTE_PORTS: action => ['info', `Setting SSH ports to ${action.data.sshForwardPort} and ${action.data.camForwardPort}`],
     SET_SSH_CONNECTING: ['info', 'Attempting to create the SSH tunnels.'],
     SET_SSH_CONNECTED: ['success', 'SSH tunnels are up and running.'],
     SET_SSH_DISCONNECTED: ['warning', 'SSH is disconnected'],
@@ -120,6 +123,32 @@ let logger = new(winston.Logger)({
         })
     ]
 });
+
+
+/**
+ * A promise wrapper, to get the logs as a nice array.
+ * @returns {Promise} The logs or an error.
+ */
+logger.getLogs = function() {
+    return new Promise((resolve, reject) => {
+        logger.query({
+            limit: 100 //TODO: Dynamic setting...
+        }, function(err, data) {
+            logs = data.file;
+
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            if (logs.length === 0)
+                logs = [];
+
+            resolve(logs);
+            return;
+        });
+    });
+};
 
 // TODO: Find out if needet
 logger.importance = ['normal', 'info', 'warning', 'danger', 'success'];

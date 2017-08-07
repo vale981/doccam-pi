@@ -43,9 +43,9 @@ server.on('create_tunnel', (data, socket) => {
     let replySuccess = generateRelyFunction('success', socket, id);
     let replyError = generateRelyFunction('error', socket, id);
     let tunnel;
-    
+
     tunnel = tunnels[data.localPort];
-    
+
     // If the tunnel already runs:
     if (tunnel && (tunnel.info.localHost === 'localhost' || tunnel.info.localHost === data.localHost)){
         return replySuccess(tunnel.info.remotePort);
@@ -62,7 +62,7 @@ server.on('create_tunnel', (data, socket) => {
     return createNewTunnel(data).then((tunnel) => {
         tunnels[tunnel.info.localPort] = tunnel;
 	replySuccess(tunnel.info.remotePort);
-	console.log("Created Tunnel:\n", tunnel);
+	      console.log("Created Tunnel:\n", JSON.stringify(tunnel));
     }, (error) => {
 	console.error("Tunnel Creation Failed:\n", error);
 	replyError(error);

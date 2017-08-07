@@ -5,7 +5,7 @@
 
 const Promise = require('promise');
 const writeConfig = require('./utility/config.js').write;
-const readConfig =  require('./utility/config.js').read;
+const readConfig = require('./utility/config.js').read;
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                Declarations                               //
@@ -22,10 +22,12 @@ let actions = {
     REQUEST_STOP: 'REQUEST_STOP',
     SET_STOPPED: 'SET_STOPPED',
     REQUEST_RESTART: 'REQUEST_RESTART',
+    TAKE_SNAPSHOT: 'TAKE_SNAPSHOT',
+    SET_SNAPSHOT_FAILED: 'SET_SNAPSHOT_FAILED',
+    SET_SNAPSHOT_TAKEN: 'SET_SNAPSHOT_TAKEN',
     SET_ERROR: 'SET_ERROR',
     TRY_RECONNECT: 'TRY_RECONNECT',
     STOP_ERROR_HANDLING: 'STOP_ERROR_HANDLING',
-    SET_NAME: 'SET_NAME',
 
     // Communicator
     SET_CONNECTED: 'SET_CONNECTED',
@@ -39,7 +41,7 @@ let actions = {
     SET_SSH_REMOTE_PORTS: 'SET_SSH_REMOTE_PORTS',
     SET_SSH_ERROR: 'SET_SSH_ERROR',
     SET_SSH_WILL_RECONNECT: 'SET_SSH_WILL_RECONNECT',
-    
+
     // Master Server Related
     HYDRATE: 'HYDRATE'
 };
@@ -61,27 +63,28 @@ let creators = {};
  */
 creators.updateConfig = function(update) {
     return (dispatch, getState) => {
-	let init = false;
-	
-	if(!update) {
-	    init = true;
-	    
-	    update = readConfig();
+        let init = false;
 
-	    // TODO: Proper handling.
-	    if(!update)
-		throw new Error('Could not load config.');
-	}
-	
+        if (!update) {
+            init = true;
+
+            update = readConfig();
+
+            // TODO: Proper handling.
+            if (!update)
+                throw new Error('Could not load config.');
+        }
+
         dispatch({
             type: actions.UPDATE_CONFIG,
             data: update
         });
 
-	if(update.name)
-	    dispatch(creators.setName(update.name));
-
-        return init ? Promise.resolve() : writeConfig(getState);
+        // TODO: CD
+        if (init)
+            return Promise.resolve('Config Updated.');
+        else
+            return writeConfig(getState().config);
     };
 };
 
@@ -115,89 +118,101 @@ creators.requestRestart = function() {
     };
 };
 
+creators.takeSnapshot = function() {
+    return {
+        type: actions.TAKE_SNAPSHOT
+    };
+};
+
+creators.setSnapshotFailed = function(error) {
+    return {
+        type: actions.SET_SNAPSHOT_FAILED,
+        data: error
+    };
+};
+
+creators.setSnapshotTaken = function() {
+    return {
+        type: actions.SET_SNAPSHOT_TAKEN
+    };
+};
+
 // Optional error Message for logging.
 creators.setError = function(error, stdout, stderr) {
     return {
         type: actions.SET_ERROR,
         data: error,
-	stdout,
-	stderr
+        stdout,
+        stderr
     };
 };
 
 creators.setTryReconnect = function(to) {
     return {
-	type: actions.TRY_RECONNECT,
-	to
-    };
-};
-
-creators.setName = function(name) {
-    return {
-	type: actions.SET_NAME,
-	data: name
+        type: actions.TRY_RECONNECT,
+        to
     };
 };
 
 creators.stopErrorHandling = function() {
     return {
-	type: actions.STOP_ERROR_HANDLING
+        type: actions.STOP_ERROR_HANDLING
     };
 };
 
 creators.setConnected = function() {
     return {
-	type: actions.SET_CONNECTED
+        type: actions.SET_CONNECTED
     };
 };
 
 creators.setDisconnected = function() {
     return {
-	type: actions.SET_DISCONNECTED
+        type: actions.SET_DISCONNECTED
     };
 };
 
 creators.setSSHRemotePorts = function(ports) {
     return {
-	type: actions.SET_SSH_REMOTE_PORTS,
-	data: ports
+        type: actions.SET_SSH_REMOTE_PORTS,
+        data: ports
     };
 };
 
 creators.setSSHConnecting = function() {
     return {
-	type: actions.SET_SSH_CONNECTING
+        type: actions.SET_SSH_CONNECTING
     };
 };
 
 creators.setSSHConnected = function() {
     return {
-	type: actions.SET_SSH_CONNECTED
+        type: actions.SET_SSH_CONNECTED
     };
 };
 
 creators.setSSHDisconnecting = function(error) {
     return {
-	type: actions.SET_SSH_DISCONNECTING
+        type: actions.SET_SSH_DISCONNECTING
     };
 };
 
 creators.setSSHDisconnected = function() {
     return {
-	type: actions.SET_SSH_DISCONNECTED
+        type: actions.SET_SSH_DISCONNECTED
     };
 };
 
 creators.setSSHError = function(error) {
     return {
-	type: actions.SET_SSH_ERROR,
-	data: error
+        type: actions.SET_SSH_ERROR,
+        data: error
     };
 };
 
 creators.setSSHWillReconnect = function(error) {
     return {
-	type: actions.SET_SSH_WILL_RECONNECT
+        type: actions.SET_SSH_WILL_RECONNECT
     };
 };
 
