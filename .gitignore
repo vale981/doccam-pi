@@ -7,3 +7,4 @@ process.log.*
 ssh.pid
 #*#
 *~
+.*
