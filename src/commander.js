@@ -110,9 +110,6 @@ class Commander {
         config = _getConfig;
         dispatch = _dispatch;
 
-        // Create the FFMPEG-Command initially.
-        this.createCommands();
-
         // Register events.
         cmd.on('error', crashed);
         cmd.on('end', crashed); // Can posibly be an error.
@@ -151,6 +148,9 @@ Commander.prototype.start = function() {
             // Set the Status to starting.
             dispatch(requestStart());
 
+            // Create the FFMPEG-Command initially.
+            this.createCommands();
+
             new Promise((resolve, reject) => {
                 cmd.once('start', resolve);
                 cmd.prependOnceListener('error', reject);
@@ -179,7 +179,7 @@ Commander.prototype.restart = function() {
                 dispatch(self.stop()).then(() => {
                     dispatch(self.start()).then(() => {
                         resolve("Successfully restarted.");
-                    }).catch((message) => reject("Could not start!", message)); // TODO: CD
+                    }).catch((message) => reject({ message: "Could not restart!",  details: message })); // TODO: CD
                 });
             });
         });
@@ -199,6 +199,7 @@ Commander.prototype.stop = function() {
 
         return new Promise((resolve, reject) => {
             // Set the Status to starting.
+            dispatch(errorHandling.stopHandling());
             dispatch(requestStop());
 
             new Promise((resolve, reject) => {
@@ -330,7 +331,7 @@ function crashed(error, stdout, stderr) {
     let errorCode, handler;
 
     // We stopped...
-    if (getState().stream.running === 'STOPPED')
+    if (getState().stream.running === 'STOPPED' || getState().stream.running === 'STOPPING')
         return;
 
     // Can't connect to the Camera
@@ -343,8 +344,9 @@ function crashed(error, stdout, stderr) {
     // Can't connect to the Internet / YouTube
     else if (error.message.indexOf(source + 'Input/output error') > -1 || error.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config().key) > -1) {
         errorCode = 1;
+
         handler = errorHandling.handlers.tryReconnect('a.rtmp.youtube.com/live2/', 1935,
-            () => dispatch(self.start()));
+                                                      () => dispatch(self.start()));
     }
 
     // Wrong FFMPEG Executable
@@ -361,16 +363,19 @@ function crashed(error, stdout, stderr) {
         errorCode = 3;
 
         // Just restart in a Second.
-        setTimeout(function() {
+        setTimeout(() => {
             dispatch(self.start());
         }, 1000);
     }
 
     dispatch(setError(errorCode, stdout, stderr)); // NOTE: Maybe no STDOUT
 
+
     // Handle the error if possible.
     if (handler)
-        dispatch(handler);
+        setTimeout(() => {
+            dispatch(handler);
+        }, 1000);
 }
 
 

@@ -30,6 +30,7 @@ const {
     SET_STOPPED,
     REQUEST_RESTART,
     SET_ERROR,
+    SET_ERROR_RESOLVED,
     TRY_RECONNECT,
     HYDRATE,
     SET_CONNECTED,
@@ -141,6 +142,7 @@ Communicator.prototype.sendAction = function(action) {
     switch (action.type) {
     case SET_STARTED:
     case SET_STOPPED:
+    case SET_ERROR_RESOLVED:
         type = 'startStop';
         change = {
             running: state.stream.running == 'RUNNING' ? 0 : 1, // TODO: CD
@@ -348,7 +350,7 @@ function handleCommand(command, callback) {
             dispatch(commander.start()).then(msg => answerSuccess(msg)).catch(error => answerError(error));
         break;
     case commands.RESTART:
-        dispatch(commander.restart()).then(msg => answerSuccess(msg)).catch(error => answerError(error));
+        dispatch(commander.restart()).then(msg => answerSuccess(msg)).catch(error => answerError(error.message + ' ' + error.details));
         break;
     case commands.UPDATE_CONFIG:
         dispatch(updateConfig(command.data)).then(msg => answerSuccess(msg)).catch(err => answerError(err));

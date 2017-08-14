@@ -15,6 +15,7 @@ const {
     SET_SNAPSHOT_FAILED,
     SET_SNAPSHOT_TAKEN,
     SET_ERROR,
+    SET_ERROR_RESOLVED,
     TRY_RECONNECT,
     STOP_ERROR_HANDLING,
     SET_CONNECTED,
@@ -40,8 +41,8 @@ function error(state = false, action) {
         case SET_ERROR:
             return action.data;
         case SET_STARTED:
-            return false;
-        case SET_STOPPED:
+    case SET_STOPPED:
+    case SET_ERROR_RESOLVED:
             return false;
         default:
             return state;

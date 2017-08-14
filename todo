@@ -1,4 +1,4 @@
-- restart enable.
+- restart enable in webif
 - update config commands (middleware)
 - shared config
 - update docs with GatewayPorts clientspecified

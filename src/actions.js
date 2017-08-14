@@ -26,6 +26,7 @@ let actions = {
     SET_SNAPSHOT_FAILED: 'SET_SNAPSHOT_FAILED',
     SET_SNAPSHOT_TAKEN: 'SET_SNAPSHOT_TAKEN',
     SET_ERROR: 'SET_ERROR',
+    SET_ERROR_RESOLVED: 'SET_ERROR_RESOLVED',
     TRY_RECONNECT: 'TRY_RECONNECT',
     STOP_ERROR_HANDLING: 'STOP_ERROR_HANDLING',
 
@@ -144,6 +145,12 @@ creators.setError = function(error, stdout, stderr) {
         data: error,
         stdout,
         stderr
+    };
+};
+
+creators.setErrorResolved = function() {
+    return {
+        type: actions.SET_ERROR_RESOLVED
     };
 };
 

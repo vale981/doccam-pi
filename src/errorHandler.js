@@ -3,7 +3,8 @@
  * @description Provides error Handlers
  */
 
-const http = require('http');
+
+const net = require('net');
 
 const {
     TRY_RECONNECT,
@@ -12,7 +13,8 @@ const {
 
 const {
     setTryReconnect,
-    stopErrorHandling
+    stopErrorHandling,
+    setErrorResolved
 } = require('./actions.js').creators;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,15 +48,15 @@ module.exports.stopHandling = function() {
     return (dispatch, getState) => {
         let stopper,
             handler = handlers[getState().stream.handleError];
-		
+
         if (!getState().stream.handleError)
             return Promise.resolve();
 
         if (!handler)
             return Promise.resolve();
 
-	dispatch(stopErrorHandling());
-	stopper = handler.stop();
+        dispatch(stopErrorHandling());
+        stopper = handler.stop();
 
         if (!stopper.then)
             return Promise.resolve();
@@ -92,31 +94,32 @@ function tryReconnect() {
             reconnect();
 
             function reconnect() {
-		// Somebody has stopped it.
-		if(!getState().stream.handleError)
-		    return;
+                // Somebody has stopped it.
+                if (!getState().stream.handleError)
+                    return;
 
-		http.get({
-                    host: host.split('/')[0],
-                    port: port
-                }, function() {
+                const socket = new net.Socket();
+
+                const onError = () => {
+                    connectHandle = setTimeout(function() {
+                        reconnect();
+                    }, 1000);
+                };
+
+                socket.setTimeout(1000);
+		            socket.on('error', onError);
+                socket.on('timeout', onError);
+
+                socket.connect(port, host.split('/')[0], () => {
                     success();
-                }).on("error", function(error) {
-                    if (error.message == "socket hang up") {
-                        // Even if he doesn't like to talk to us, he's there.
-                        success();
-                    } else {
-			// try again
-                        connectHandle = setTimeout(function() {
-                            reconnect();
-                        }, 1000);
-                    }
+                    socket.end();
                 });
             }
 
             function success() {
                 setTimeout(() => {
                     dispatch(stopErrorHandling());
+                    dispatch(setErrorResolved());
                     after();
                 });
             };

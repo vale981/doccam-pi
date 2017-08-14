@@ -350,7 +350,7 @@ SSHMan.middleware = store => next => action => {
             action.data.sshLocalUser ||
             action.data.camIP ||
             action.data.camPanelPort) {
-            dispatch(self.restartTunnels());
+            dispatch(self.restartTunnels()).catch(() => {}); // TODO: Nicer error handling
         }
     }
     return result;
