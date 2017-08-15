@@ -20,20 +20,7 @@ let self = false;
  * The FFMPEG command.
  * @member
  */
-let cmd = ffmpeg({
-    stdoutLines: 20
-});
-
-/**
- * The command to take a snapshot.
- * @member
- */
-let snapCmd = ffmpeg({
-    stdoutLines: 20
-});
-
-// Memory Buffer to hold 'em all... (The Snapshot)
-let snapBuff;
+let cmd;
 
 // The Config, Logger and a handle for the kill timeout.
 let _stopHandle = false;
@@ -110,10 +97,6 @@ class Commander {
         config = _getConfig;
         dispatch = _dispatch;
 
-        // Register events.
-        cmd.on('error', crashed);
-        cmd.on('end', crashed); // Can posibly be an error.
-
         return this;
     }
 }
@@ -124,7 +107,7 @@ module.exports = Commander;
  * Action creators.
  */
 
-// NOTE: Maybe better error resolving strategy. 
+// NOTE: Maybe better error resolving strategy.
 // Start streaming.
 /**
  * Starts the streaming process if possible.
@@ -149,7 +132,7 @@ Commander.prototype.start = function() {
             dispatch(requestStart());
 
             // Create the FFMPEG-Command initially.
-            this.createCommands();
+            self.createCommands();
 
             new Promise((resolve, reject) => {
                 cmd.once('start', resolve);
@@ -179,7 +162,10 @@ Commander.prototype.restart = function() {
                 dispatch(self.stop()).then(() => {
                     dispatch(self.start()).then(() => {
                         resolve("Successfully restarted.");
-                    }).catch((message) => reject({ message: "Could not restart!",  details: message })); // TODO: CD
+                    }).catch((message) => reject({
+                        message: "Could not restart!",
+                        details: message
+                    })); // TODO: CD
                 });
             });
         });
@@ -213,6 +199,7 @@ Commander.prototype.stop = function() {
                     // Ok let's force it then...
                     logger.log(logger.importance[3], "Force Stop!");
                     cmd.kill();
+                    resolve();
                 }, 3000);
             }).then(() => {
                 clearTimeout(_stopHandle);
@@ -234,6 +221,7 @@ Commander.prototype.takeSnapshot = function() {
             // TODO: CD
 
             // Init memstream.
+            let snapBuff;
             try {
                 snapBuff = new WMStrm();
             } catch (e) {
@@ -241,11 +229,22 @@ Commander.prototype.takeSnapshot = function() {
                 return;
             }
 
+            let snapCmd = ffmpeg({
+                stdoutLines: 20
+            });
+
+            snapCmd.input(source + config().snapProfile)
+                .outputFormat('mjpeg')
+                .frames(1)
+                .stream(snapBuff, {
+                    end: true
+                });
+
             // Reject on Error.
             snapCmd.once('error', () => reject('An error occured while taking the snapshot'));
 
             // Send data on Finish.
-            snapBuff.once('finnish', () => {
+            snapCmd.once('end', () => {
                 try {
                     resolve(snapBuff.memStore.toString('base64'));
                 } catch (e) {
@@ -253,7 +252,7 @@ Commander.prototype.takeSnapshot = function() {
                 }
             });
 
-            snapBuff.run();
+            snapCmd.run();
         }).then(snap => {
             {
                 dispatch(setSnapshotTaken());
@@ -272,8 +271,9 @@ Commander.prototype.takeSnapshot = function() {
  * @returns { Object } The fluent-ffmpeg command object. 
  */
 Commander.prototype.createCommands = function() {
-    // Clear inputs
-    cmd._inputs = [];
+    cmd = ffmpeg({
+        stdoutLines: 20
+    });
 
     // TODO: Multi Protocol
     source = 'rtsp://' + config().camIP + ':' + config().camPort + '/';
@@ -296,11 +296,21 @@ Commander.prototype.createCommands = function() {
     // Output Options.
     cmd.outputFormat('flv')
         .outputOptions(['-bufsize 50000k', '-tune film'])
-        .output('rtmp://a.rtmp.youtube.com/live2/' + config().key);
+        .output('rtmp://' + config()['stream-server'] + '/' + config().key);
 
-    // Clear inputs.
-    snapCmd._inputs = [];
+    // Register events.
+    cmd.on('error', (error, stdout, stderr) => crashed({
+        error,
+        stdout,
+        stderr
+    }));
 
+    // Can posibly be an error.
+    cmd.on('end', (stdout, stderr) => crashed({
+        stdout,
+        stderr
+    }));
+    //snapCmd._outputs = [];
     // Snap Profile.
     /*snapCmd.input(source + config().snapProfile)
         .outputFormat('mjpeg')
@@ -327,39 +337,53 @@ Commander.prototype.createCommands = function() {
  * @param { String } stdout
  * @param { String } stderr
  */
-function crashed(error, stdout, stderr) {
+function crashed({
+    error,
+    stdout,
+    stderr
+}) {
     let errorCode, handler;
 
-    // We stopped...
-    if (getState().stream.running === 'STOPPED' || getState().stream.running === 'STOPPING')
-        return;
+    // Finished
+    if (!error) {
+        dispatch(setStopped());
+    } else {
+        // We stopped...
+        if (getState().stream.running === 'STOPPED' || getState().stream.running === 'STOPPING')
+            return;
 
-    // Can't connect to the Camera
-    if (error.message.indexOf(source) > -1) {
-        errorCode = 0;
-        handler = errorHandling.handlers.tryReconnect(config().camIP, config().camPort,
-            () => dispatch(self.start()));
-    }
+        // Can't connect to the Camera
+        if (error.message.indexOf(source) > -1) {
+            errorCode = 0;
+            handler = errorHandling.handlers.tryReconnect(config().camIP, config().camPort,
+                () => dispatch(self.start()).catch(() => {}));
+        }
 
-    // Can't connect to the Internet / YouTube
-    else if (error.message.indexOf(source + 'Input/output error') > -1 || error.message.indexOf('rtmp://a.rtmp.youtube.com/live2/' + config().key) > -1) {
-        errorCode = 1;
+        // Invalid Stream Key etc...
+        else if (error.message.indexOf('Operation not permitted') > -1 || (error.message.indexOf('Input/output') > -1 && error.message.indexOf('rtmp://' + config()['stream-server'] + '/' + config().key) > -1)) {
+            errorCode = 4;
+        }
 
-        handler = errorHandling.handlers.tryReconnect('a.rtmp.youtube.com/live2/', 1935,
-                                                      () => dispatch(self.start()));
-    }
+        // Can't connect to the Internet / YouTube
+        else if (error.message.indexOf(source + ' Input/output error') > -1 || error.message.indexOf('rtmp://' + config()['stream-server'] + '/' + config().key) > -1) {
+            errorCode = 1;
 
-    // Wrong FFMPEG Executable
-    else if (error.message.indexOf('spawn') > -1 || error.message.indexOf('niceness') > -1)
-        errorCode = 2;
+            handler = errorHandling.handlers.tryReconnect(config()['stream-server'], 1935,
+                () => dispatch(self.start()).catch(() => {})); // TODO: Better Solution
+        }
 
-    // Stopped by us - SIGINT Shouldn't lead to a crash.
-    else if (error.message.indexOf('SIGINT') > -1 || error.message.indexOf('SIGKILL') > -1) {
-        return;
+        // Wrong FFMPEG Executable
+        else if (error.message.indexOf('spawn') > -1 || error.message.indexOf('niceness') > -1)
+            errorCode = 2;
+
+        // Stopped by us - SIGINT Shouldn't lead to a crash.
+        else if (error.message.indexOf('SIGINT') > -1 || error.message.indexOf('SIGKILL') > -1) {
+            return;
+        }
     }
 
     // Some unknown Problem, just try to restart.
-    else {
+    if (!errorCode && errorCode !== 0) {
         errorCode = 3;
 
         // Just restart in a Second.
@@ -387,16 +411,18 @@ Commander.middleware = store => next => action => {
     let result = next(action);
 
     // If sth. has changed, we restart.
-    if (self && getState().stream.running === 'RUNNING'
-        && action.type === UPDATE_CONFIG) {
+    if (self && (getState().stream.error !== false || getState().stream.running === 'RUNNING') &&
+        action.type === UPDATE_CONFIG) {
         if (action.data.key ||
             action.data.ffmpegPath ||
             action.data.customOutputOptions ||
             action.data.customVideoOptions ||
             action.data.customAudioOptions ||
             action.data.camIP ||
-            action.data.camPort) {
-            dispatch(self.restart()).catch(()=>{}); //TODO: error Handling
+            action.data.camPort ||
+            action.data['stream-server'] ||
+            action.key) {
+            dispatch(self.restart()).catch(() => {}); //TODO: error Handling
         }
     }
     return result;

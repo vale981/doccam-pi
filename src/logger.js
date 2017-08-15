@@ -30,7 +30,7 @@ const customLevels = {
 };
 
 // Error Messages
-const errors = ['Camera Disconnected', 'YoutTube Disconnected', 'Wrong ffmpeg executable.', 'Unknown error.'];
+const errors = ['Camera Disconnected', 'Stream-Server Disconnected', 'Wrong ffmpeg executable.', 'Unknown error.', 'Invalid Stream Key or the stream server doesn\'t accept connections.'];
 
 const {
     UPDATE_CONFIG,

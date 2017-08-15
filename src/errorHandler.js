@@ -49,13 +49,14 @@ module.exports.stopHandling = function() {
         let stopper,
             handler = handlers[getState().stream.handleError];
 
+        dispatch(stopErrorHandling());
+
         if (!getState().stream.handleError)
             return Promise.resolve();
 
         if (!handler)
             return Promise.resolve();
 
-        dispatch(stopErrorHandling());
         stopper = handler.stop();
 
         if (!stopper.then)

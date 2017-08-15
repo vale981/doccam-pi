@@ -47,37 +47,40 @@ server.on('create_tunnel', (data, socket) => {
     tunnel = tunnels[data.localPort];
 
     // If the tunnel already runs:
-    if (tunnel && (tunnel.info.localHost === 'localhost' || tunnel.info.localHost === data.localHost)){
+    if (tunnel && (tunnel.info.localHost === 'localhost' || tunnel.info.localHost === data.localHost)) {
         return replySuccess(tunnel.info.remotePort);
     }
 
     // Dummy for other request
     tunnels[data.localPort] = {
-	info: {
-	    localHost: data.localHost || 'localhost'
-	}
+        info: {
+            localHost: data.localHost || 'localhost'
+        }
     };
 
     // Let's create a tunnel!
     return createNewTunnel(data).then((tunnel) => {
         tunnels[tunnel.info.localPort] = tunnel;
-	replySuccess(tunnel.info.remotePort);
-	      console.log("Created Tunnel:\n", JSON.stringify(tunnel));
+        replySuccess(tunnel.info.remotePort);
+        console.log("Created Tunnel:\n", JSON.stringify(tunnel));
     }, (error) => {
-	console.error("Tunnel Creation Failed:\n", error);
-	replyError(error);
-	delete tunnels[data.localPort];
+        console.error("Tunnel Creation Failed:\n", error);
+        replyError(error);
+        delete tunnels[data.localPort];
     });
 });
 
 /**
  * The request handler to close a tunnel. The reply is {error: [message]} in case of an error, otherwise {success: true}.
  */
-server.on('close_tunnel', ({port, id}, socket) => {
+server.on('close_tunnel', ({
+    port,
+    id
+}, socket) => {
     let replySuccess = generateRelyFunction('success', socket, id);
     let replyError = generateRelyFunction('error', socket, id);
     let error, tunnel;
-    
+
     tunnel = tunnels[port];
     error = !tunnel;
 
@@ -100,21 +103,21 @@ function createNewTunnel(options) {
     return new Promise((resolve, reject) => {
         try {
             let tunnel = autossh(options);
-	    // TODO: BETTER ERROR HANDLING
+            // TODO: BETTER ERROR HANDLING
             tunnel.on('connect', connection => {
-		// Wait for Exit // TODO: Nicer
-		setTimeout(() => resolve(tunnel), 1000);
+                // Wait for Exit // TODO: Nicer
+                setTimeout(() => resolve(tunnel), 1000);
             });
-	    
-	    tunnel.on('error', error => {
-		// If auto SSH or SSH itself issue an error. // TODO: Investigate
-		if(typeof error === 'string' || error.message && (error.message.indexOf("failed for listen port") > -1 || error.message.indexOf("refused") > -1)){
-		    tunnel.kill();
-		    reject(error.message || error);
-		}
 
-		return;
-	    });
+            tunnel.on('error', error => {
+                // If auto SSH or SSH itself issue an error. // TODO: Investigate
+                if (typeof error === 'string' || error.message && (error.message.indexOf("failed for listen port") > -1 || error.message.indexOf("refused") > -1)) {
+                    tunnel.kill();
+                    reject(error.message || error);
+                }
+
+                return;
+            });
         } catch (error) {
             reject(error);
         }

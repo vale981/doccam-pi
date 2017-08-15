@@ -138,6 +138,17 @@ Communicator.prototype.sendAction = function(action) {
 
     let type, change, state = getState();
 
+    let convertError = () => {
+        return state.stream.error === false ? -1 : state.stream.error;
+    };
+
+    let convertRunning = () => {
+        if(state.stream.error !== false)
+            return 2;
+
+        return state.stream.running == 'RUNNING' ? 0 : 1; // TODO: CD
+    };
+
     // All Legacy Stuff
     switch (action.type) {
     case SET_STARTED:
@@ -145,8 +156,8 @@ Communicator.prototype.sendAction = function(action) {
     case SET_ERROR_RESOLVED:
         type = 'startStop';
         change = {
-            running: state.stream.running == 'RUNNING' ? 0 : 1, // TODO: CD
-            error: state.stream.error || -1
+            running: convertRunning(),
+            error: convertError()
         };
         break;
 
@@ -175,11 +186,14 @@ Communicator.prototype.sendAction = function(action) {
 
     case HYDRATE:
         socket.emit('meta', {
-            running: state.stream.running == 'RUNNING' ? 0 : 1,
-            error: state.stream.error || -1,
+            running: convertRunning(),
+            error: convertError(),
             name: state.name,
             config: state.config,
-            haveSettings: true // LEGACY
+            haveSettings: true, // LEGACY
+            ssh: {
+                port: state.ssh.sshForwardPort
+            }
         });
         return;
 
@@ -359,7 +373,7 @@ function handleCommand(command, callback) {
         dispatch(SSHMan.restartTunnels()).then(msg => answerSuccess(msg)).catch(err => answerError(err));
         break;
     case commands.SNAPSHOT:
-        dispatch(commander.takeSnapshot()).then(snap => self.sendSnapshot(snap))
+        dispatch(commander.takeSnapshot()).then(snap => self.sendSnapshot(snap, command.sender))
             .catch(error => self.sendMessage('Snapshot Failed', 'error', error, command.sender));
         break;
     case commands.GET_LOGS:

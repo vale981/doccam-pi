@@ -41,8 +41,8 @@ function error(state = false, action) {
         case SET_ERROR:
             return action.data;
         case SET_STARTED:
-    case SET_STOPPED:
-    case SET_ERROR_RESOLVED:
+        case SET_STOPPED:
+        case SET_ERROR_RESOLVED:
             return false;
         default:
             return state;
