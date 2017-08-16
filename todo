@@ -5,6 +5,7 @@
 - host identity
 - config update
 - Patch submissionc
+- SSH Enable Option
 Host localhost
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null

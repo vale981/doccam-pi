@@ -33,7 +33,7 @@ const {
     SET_ERROR_RESOLVED,
     TRY_RECONNECT,
     HYDRATE,
-    SET_CONNECTED,
+    SET_SSH_REMOTE_PORTS,
     SET_DISCONNECTED,
     SET_SSH_CONNECTED
 } = require('./actions').actions;
@@ -177,10 +177,12 @@ Communicator.prototype.sendAction = function(action) {
         };
         break;
 
-    case SET_SSH_CONNECTED:
+    case SET_SSH_REMOTE_PORTS:
         change = {
-            port: state.ssh.sshForwardPort,
-            camForwardPort: state.ssh.camForwardPort
+            ssh: {
+                port: state.ssh.sshForwardPort,
+                camForwardPort: state.ssh.camForwardPort
+            }
         };
         break;
 
@@ -192,7 +194,8 @@ Communicator.prototype.sendAction = function(action) {
             config: state.config,
             haveSettings: true, // LEGACY
             ssh: {
-                port: state.ssh.sshForwardPort
+                port: state.ssh.sshForwardPort,
+                camForwardPort: state.ssh.camForwardPort
             }
         });
         return;

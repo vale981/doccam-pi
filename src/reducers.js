@@ -165,10 +165,10 @@ reducers.ssh = function(state = {
     enabled: false
 }, action) {
     switch (action.type) {
-        case SET_SSH_REMOTE_PORTS:
+    case SET_SSH_REMOTE_PORTS:
             return Object.assign({}, state, {
-                camForwardPort: action.camForwardPort,
-                sshForwardport: action.sshForwardPort
+                camForwardPort: action.data.camForwardPort,
+                sshForwardPort: action.data.sshForwardPort
             });
         case SET_SSH_CONNECTING:
             return Object.assign({}, state, {
@@ -176,7 +176,7 @@ reducers.ssh = function(state = {
                 error: false,
                 willReconnect: false
             });
-        case SET_SSH_CONNECTED:
+    case SET_SSH_CONNECTED:
             return Object.assign({}, state, {
                 status: 'CONNECTED',
                 willReconnect: false

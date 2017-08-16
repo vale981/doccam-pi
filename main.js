@@ -45,7 +45,7 @@ let initialState = {
     },
     ssh: {
         status: 'DISCONNECTED', // TODO: CD // TODO: Implement in WEBIF
-        cameraForwardPort: false,
+        camForwardPort: false,
         sshForwardPort: false,
         willReconnect: false,
         error: false

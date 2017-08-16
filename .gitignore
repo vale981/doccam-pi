@@ -8,3 +8,5 @@ ssh.pid
 #*#
 *~
 .*
+GTAGS
+GPATH
